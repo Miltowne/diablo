@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Diablo.Items.Weapon
 {
-    public struct WeaponAttribute
+    public struct WeaponAttributes
     {
-        public int Damage { private get; set; }
+        public double Damage { private get; set; }
         public double AttackSpeed { private get; set; }
 
-        public int Dps
+        public double Dps
         {
-            get { return Convert.ToInt32(Convert.ToDouble(Damage) * AttackSpeed); }
+            get { return Math.Round(Damage * AttackSpeed, 2); }
         }
 
     }

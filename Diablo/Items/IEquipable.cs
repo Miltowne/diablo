@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Diablo.Items
 {
-    public enum ItemSlot
+    public interface IEquipable
     {
-        SLOT_WEAPON,
-        SLOT_BODY,
-        SLOT_HEAD,
-        SLOT_LEGS
+
     }
 }

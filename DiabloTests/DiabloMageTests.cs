@@ -9,7 +9,7 @@ using Assert = Xunit.Assert;
 
 namespace DiabloTests
 {
-    public class DiabloTClassTests
+    public class DiabloTMageTests
     {
         //these are used on several tests
         private Warrior warriorTest;
@@ -59,8 +59,7 @@ namespace DiabloTests
         {
             // Arrange
             Mage mage = new Mage(); // Cannot initialize yet
-            //Act
-
+            // Act
             // Assert
             Assert.NotNull(mage);
         }
@@ -80,10 +79,8 @@ namespace DiabloTests
         {
             // Arrange
             Warrior warrior = new Warrior();
-            Ranger ranger = new Ranger();
-
-
             // Act
+            //warrior.StringBuilder() // Character name: "jens" 
             warrior.LevelUp();
             int actual = warrior.Level;
             int expected = 2;
@@ -95,14 +92,12 @@ namespace DiabloTests
         {
             // Arrange
             Rogue rogue = new Rogue();
-
-
+            int before = rogue.Level;
             // Act
             rogue.LevelUp();
-            int actual = rogue.Level;
-            int expected = 2;
+            int after = rogue.Level;
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.NotEqual(before, after);
         }
         [Fact]
         public void Level_Up_New_Mage()

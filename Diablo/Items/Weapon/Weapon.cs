@@ -6,22 +6,13 @@ using System.Threading.Tasks;
 
 namespace Diablo.Items.Weapon
 {
-    public class Weapon : Item
+    public class Weapon : Item, IEquipable
     {
-        public WeaponAttribute WeaponAttributes { get; set; }
+        public WeaponAttributes WeaponAttributes { get; set; }
 
         public WeaponType WeaponType { get; set; }
-        //public Weapon(
-        //    string ItemName,
-        //    int ItemLevel,
-        //    Slot ItemSlot,
-        //    WeaponType WeaponType,
-        //    WeaponAttribute WeaponAttribute
-        //    ) : base(ItemName, ItemLevel, ItemSlot)
-        //{
-        //    WeaponAttributes = WeaponAttribute;
-        //    WeaponType = WeaponType;
 
-        //}
+
+
     }
 }

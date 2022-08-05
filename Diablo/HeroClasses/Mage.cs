@@ -11,7 +11,7 @@ namespace Diablo.HeroClasses
     {
         public Mage()
         {
-            attributes = new Attributes(2, 6, 1);
+            BasePrimaryAttributes = new PrimaryAttributes(2, 6, 1);
         }
 
         public Mage(string _name) : base(_name) { }

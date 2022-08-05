@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Diablo.HeroClasses.SubClassesToHeroes;
 
 namespace Diablo.Items.Armour
 {
-    public class Armour : Item
+    public class Armour : Item, IEquipable
     {
+        public ArmourType ArmourType { get; set; }
+
+        public PrimaryAttributes Attributes { get; set; }
 
     }
 }

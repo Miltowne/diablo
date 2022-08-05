@@ -1,4 +1,5 @@
-﻿using Diablo.Items;
+﻿using Diablo.HeroClasses.SubClassesToHeroes;
+using Diablo.Items;
 using Diablo.Items.Armour;
 using Diablo.Items.Weapon;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,7 +18,7 @@ namespace DiabloTests
             {
                 ItemName = "Common axe",
                 ItemLevel = 1,
-                ItemSlot = Slot.SLOT_WEAPON,
+                ItemSlot = ItemSlot.SLOT_WEAPON,
                 WeaponType = WeaponType.WEAPON_AXE,
                 WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
             };
@@ -25,7 +26,7 @@ namespace DiabloTests
             {
                 ItemName = "Common bow",
                 ItemLevel = 1,
-                ItemSlot = Slot.SLOT_WEAPON,
+                ItemSlot = ItemSlot.SLOT_WEAPON,
                 WeaponType = WeaponType.WEAPON_BOW,
                 WeaponAttributes = new WeaponAttributes() { Damage = 12, AttackSpeed = 0.8 }
             };
@@ -33,7 +34,7 @@ namespace DiabloTests
             {
                 ItemName = "Common plate body armor",
                 ItemLevel = 1,
-                ItemSlot = Slot.SLOT_BODY,
+                ItemSlot = ItemSlot.SLOT_BODY,
                 ArmourType = ArmourType.ARMOUR_PLATE,
                 Attributes = new PrimaryAttributes() { Strength = 1 }
             };
@@ -57,7 +58,7 @@ namespace DiabloTests
             // Arrange
             Weapon weapon = new Weapon();
             //Act
-            var actual = weapon.Damage;
+            var actual = weapon.WeaponAttributes.Dps;
             // Assert
             Assert.NotNull(weapon);
         }

@@ -12,7 +12,7 @@ namespace Diablo.Items
 
         public int ItemLevel { get; set; }
 
-        public Slot ItemSlot { get; set; }
+        public ItemSlot ItemSlot { get; set; }
 
         //public Item(string _itemName, int _itemLevel, Slot itemSlot)
         //{
