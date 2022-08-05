@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Diablo.HeroClasses.SubClassesToHeroes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,19 @@ using System.Threading.Tasks;
 
 namespace Diablo.HeroClasses
 {
-    internal class Rogue
+    public class Rogue : Hero
     {
+        public Rogue()
+        {
+            attributes = new Attributes(2,6,1);
+        }
+
+        public Rogue(string _name) : base(_name) { }
+
+        public override void LevelUp()
+        {
+            base.LevelUp();
+
+        }
     }
 }
