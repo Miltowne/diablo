@@ -11,15 +11,17 @@ using Diablo.Items.Weapon;
         Weapon levelFiveAxe = new Weapon()
         {
             ItemName = "Common axe",
-            ItemLevel = 1,
+            ItemLevel = 5,
             ItemSlot = ItemSlot.SLOT_WEAPON,
             WeaponType = WeaponType.WEAPON_AXE,
             WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
         };
 
-        warrior.PickUpWeapon(levelFiveAxe);
+        warrior.PickUpItem(levelFiveAxe);
 
 
 //Console.WriteLine(levelFiveAxe.WeaponAttributes.Dps);
 Console.WriteLine(warrior.CharacterDamage());
+
+Console.WriteLine(warrior.GetGear().ToString());
     

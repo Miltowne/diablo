@@ -9,7 +9,7 @@ using Assert = Xunit.Assert;
 
 namespace DiabloTests
 {
-    public class DiabloTMageTests
+    public class DiabloTClassTests
     {
         //these are used on several tests
         private Warrior warriorTest;
@@ -18,6 +18,9 @@ namespace DiabloTests
         private Ranger rangerTest;
         private Weapon weaponTest;
         private Weapon levelFiveAxe;
+        private Weapon testBow;
+        private Armour testPlateBody;
+        private Weapon levelOneAxe;
         [TestInitialize]
         public void TestInitialize() // initialize the classes before test methods use them
         {
@@ -28,7 +31,7 @@ namespace DiabloTests
             weaponTest = new Weapon();
 
 
-            Weapon levelFiveAxe = new Weapon()
+            levelFiveAxe = new Weapon()
             {
                 ItemName = "Common axe",
                 ItemLevel = 5,
@@ -36,7 +39,15 @@ namespace DiabloTests
                 WeaponType = WeaponType.WEAPON_AXE,
                 WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
             };
-            Weapon testBow = new Weapon()
+            levelOneAxe = new Weapon()
+            {
+                ItemName = "Common axe",
+                ItemLevel = 5,
+                ItemSlot = ItemSlot.SLOT_WEAPON,
+                WeaponType = WeaponType.WEAPON_AXE,
+                WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
+            };
+            testBow = new Weapon()
             {
                 ItemName = "Common bow",
                 ItemLevel = 1,
@@ -44,7 +55,7 @@ namespace DiabloTests
                 WeaponType = WeaponType.WEAPON_BOW,
                 WeaponAttributes = new WeaponAttributes() { Damage = 12, AttackSpeed = 0.8 }
             };
-            Armour testPlateBody = new Armour()
+            testPlateBody = new Armour()
             {
                 ItemName = "Common plate body armor",
                 ItemLevel = 1,
@@ -53,18 +64,18 @@ namespace DiabloTests
                 Attributes = new PrimaryAttributes() { Strength = 1 }
             };
         }
-
         [Fact]
-        public void Create_New_Mage()
+        public void Create_New_Warrior()
         {
             // Arrange
-            Mage mage = new Mage(); // Cannot initialize yet
-            // Act
+            Warrior warrior = new Warrior();
+            //Act
             // Assert
-            Assert.NotNull(mage);
+            Assert.NotNull(warrior);
         }
+
         [Fact]
-        public void Name_Warrior_New_On_Init()
+        public void Name_New_Warrior_On_Init()
         {
             // Arrange
             Warrior warrior1 = new Warrior("Paul");
@@ -79,91 +90,55 @@ namespace DiabloTests
         {
             // Arrange
             Warrior warrior = new Warrior();
+            Ranger ranger = new Ranger();
+
+
             // Act
-            //warrior.StringBuilder() // Character name: "jens" 
             warrior.LevelUp();
             int actual = warrior.Level;
             int expected = 2;
             // Assert
             Assert.Equal(actual, expected);
         }
-        [Fact]
-        public void Level_Up_New_Rogue()
-        {
-            // Arrange
-            Rogue rogue = new Rogue();
-            int before = rogue.Level;
-            // Act
-            rogue.LevelUp();
-            int after = rogue.Level;
-            // Assert
-            Assert.NotEqual(before, after);
-        }
-        [Fact]
-        public void Level_Up_New_Mage()
-        {
-            // Arrange
-            Mage mage = new Mage();
-            Armour testPlateBody = new Armour()
-            {
-                ItemName = "Common plate body armor",
-                ItemLevel = 1,
-                ItemSlot = ItemSlot.SLOT_BODY,
-                ArmourType = ArmourType.ARMOUR_PLATE,
-                Attributes = new PrimaryAttributes() { Strength = 1 }
-            };
 
-
-            // Act
-            mage.LevelUp();
-            int actual = mage.Level;
-            int expected = 2;
-            // Assert
-            Assert.Equal(actual, expected);
-        }
-        [Fact]
-        public void Level_Up_New_Ranger()
-        {
-            // Arrange
-            Ranger ranger = new Ranger();
-
-
-            // Act
-            ranger.LevelUp();
-            int actual = ranger.Level;
-            int expected = 2;
-            // Assert
-            Assert.Equal(actual, expected);
-        }
         [Fact]
         public void Get_Attributes_From_Warrior()
         {
             // Arrange
             Warrior warrior = new Warrior();
             // Act
-            int[] actual = warrior.getAttributes();
-            int[] expected = new int[] { 5, 2, 1 };
+            double[] actual = warrior.BasePrimaryAttributes.GetAllAttributes();
+            double[] expected = new double[] { 5, 2, 1 };
             // Assert
             Assert.Equal(actual, expected);
         }
         [Fact]
-        public void Get_Attributes_From_Mage()
+        public void Pick_Up_Weapon_Warrior()
         {
             // Arrange
             // Act
-            int[] actual = mageTest.getAttributes();
-            int[] expected = new int[] { 2, 6, 1 };
+            warriorTest.PickUpItem(levelOneAxe);
+            warriorTest.
             // Assert
-            Assert.Equal(actual, expected);
+            //Assert.
         }
-        [Fact]
-        public void Throw_Exception_InvalidWeaponException()
-        {
-            // Arrange
-            // Act
-            // Assert
-            Assert.Throws<InvalidWeaponException>(() =>warriorTest.PickUpWeapon(levelFiveAxe));
-        }
+        //[Fact]
+        //public void Throw_Exception_InvalidWeaponException()
+        //{
+        //    // Arrange
+        //    // Act
+        //    Action act = () => warriorTest.PickUpItem(levelFiveAxe);
+        //    // Assert
+        //    Assert.Throws<InvalidWeaponException>(act);
+        //}
+        //[Fact]
+        //public void Throw_Exception_InvalidArmourExceprion()
+        //{
+        //    // Arrange
+        //    // Act
+        //    // Assert
+        //    Assert.Throws<InvalidArmourException>(() => warriorTest.PickUpItem(levelFivePlate));
+        //}
 
     }
 }

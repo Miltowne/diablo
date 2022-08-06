@@ -2,30 +2,36 @@
 using Diablo.Items;
 using Diablo.Items.Armour;
 using Diablo.Items.Weapon;
+using System.Text;
 
 namespace Diablo.HeroClasses
 {
     public abstract class Hero
     {
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
+
+        public int Level { get; private set; }
 
 
-        //public double Damage 
-        //{ 
-            
-        //}
+        public PrimaryAttributes BasePrimaryAttributes { get; protected set; } // ökar när du levlar upp
+        protected PrimaryAttributes TotalPrimaryAttributes { get; set; } // ökar när du har Armour / härstammar BasePrima...
 
-        public int Level { get; set; }
-
-
-        protected PrimaryAttributes BasePrimaryAttributes { get; set; } = new PrimaryAttributes(1, 1, 1); // ökar när du levlar upp
-        protected PrimaryAttributes TotalPrimaryAttributes { get; set; } = new PrimaryAttributes(1, 1, 1); // ökar när du har Armour / härstammar BasePrima...
+        protected List<WeaponType> CharacterWeaponTypes { get; set; }
+        protected List<ArmourType> CharacterArmourTypes { get; set; }
 
 
 
         public Hero()
         {
+            Level = 1;
+        }
+        public Hero(string? _name)
+        {
+            if (_name is not null) 
+            { 
+                Name = _name;
+            }
             Level = 1;
         }
 
@@ -40,42 +46,47 @@ namespace Diablo.HeroClasses
             set { Inventory[key] = value; }
         }
 
-        public Hero(string _name)
+        public StringBuilder GetGear()
         {
-            Name = _name;
-            Level = 1;
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append($"Name: {Name}");
+            stringBuilder.Append(Environment.NewLine);
+            stringBuilder.Append($"Level: {Level}");
+            stringBuilder.Append(Environment.NewLine);
+            stringBuilder.Append($"Strength: {TotalPrimaryAttributes.Strength}");
+            stringBuilder.Append(Environment.NewLine);
+            stringBuilder.Append($"Dexterity: {TotalPrimaryAttributes.Dexterity}");
+            stringBuilder.Append(Environment.NewLine);
+            stringBuilder.Append($"Intelligence: {TotalPrimaryAttributes.Intelligence}");
+            stringBuilder.Append(Environment.NewLine);
+            stringBuilder.Append($"Damage: {CharacterDamage()}");
+            stringBuilder.Append(Environment.NewLine);
+            stringBuilder.Append($"Created: {DateTime.Now}");
+            stringBuilder.Append(Environment.NewLine);
+            return stringBuilder;
         }
+
 
         public virtual void LevelUp()
         {
             this.Level++;
         }
 
-        //public int[] getAttributes()
-        //{
-        //    return new int[] { attributes.Strength, attributes.Dexterity, attributes.Intelligence };
-        //}
-
         public virtual void PickUpItem(IEquipable item)
         {
             Type type = item.GetType();
             if (type == typeof(Weapon)) Inventory.Add((item as Weapon)!.ItemSlot, (item as Weapon)!);
             else if (type == typeof(Armour)) Inventory.Add((item as Armour)!.ItemSlot, (item as Armour)!);
-        }
-
-        public virtual void PickUpWeapon(Weapon weapon)
-        {
-            Inventory.Add(weapon.ItemSlot, weapon);
-        }
-        public virtual void PickUpArmour(Armour armour)
-        {
-            Inventory.Add(armour.ItemSlot, armour);
+            else throw new Exception("Hero.PickUpItem: Item is neither type Weapon or Armour");
         }
 
         public virtual double CharacterDamage()
         {
-            return Math.Round((Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.Dps * (1 +  TotalPrimaryAttributes.Strength / 100), 2);
+            if (Inventory.ContainsKey(ItemSlot.SLOT_WEAPON))
+            {
+                return Math.Round((Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.Dps * (1 + TotalPrimaryAttributes.Strength / 100), 2);
+            }
+            else return Math.Round(1 + TotalPrimaryAttributes.Strength / 100, 2);
         }
-
     }
 }

@@ -12,6 +12,10 @@ namespace Diablo.HeroClasses.SubClassesToHeroes
         public double Dexterity { get; set; }
         public double Intelligence { get; set; }
 
+        public double[] GetAllAttributes()
+        {
+            return new double[] { Strength, Dexterity, Intelligence};
+        }
 
         public PrimaryAttributes(double _strength, double _dexterity, double _intelligence)
         {

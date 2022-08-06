@@ -19,7 +19,8 @@ namespace Diablo.HeroClasses
         {
             BasePrimaryAttributes = new PrimaryAttributes(5, 2, 1);
             TotalPrimaryAttributes = new PrimaryAttributes(5, 2, 1);
-
+            CharacterWeaponTypes = new List<WeaponType>() { WeaponType.WEAPON_SWORD, WeaponType.WEAPON_HAMMER, WeaponType.WEAPON_AXE };
+            CharacterArmourTypes = new List<ArmourType>() { ArmourType.ARMOUR_MAIL, ArmourType.ARMOUR_PLATE };
         }
         public Warrior(string _name) : base(_name) { }
 
@@ -27,39 +28,31 @@ namespace Diablo.HeroClasses
         public override void LevelUp()
         {
             base.LevelUp();
-
         }
 
-        public override void PickUpWeapon(Weapon weapon)
+        public override void PickUpItem(IEquipable item)
         {
-            if (weapon.WeaponType == WeaponType.WEAPON_AXE || weapon.WeaponType == WeaponType.WEAPON_HAMMER || weapon.WeaponType == WeaponType.WEAPON_SWORD)
+            Type type = item.GetType();
+            if (type.Name == typeof(Weapon).Name)
             {
-                if (weapon.ItemLevel <= Level)
+                try
                 {
-                    base.PickUpWeapon(weapon);
-
+                    if (CharacterWeaponTypes.Contains((item as Weapon)!.WeaponType) && (item as Weapon)!.ItemLevel <= Level) 
+                    {
+                        base.PickUpItem(item);
+                    } 
+                }
+                catch (InvalidWeaponException)
+                {
+                    throw new InvalidWeaponException();
                 }
             }
-            else
+            else if (type.Name == typeof(Armour).Name)
             {
-
-                throw new InvalidWeaponException();
+                if (CharacterArmourTypes.Contains((item as Armour)!.ArmourType) && (item as Armour)!.ItemLevel <= Level) base.PickUpItem(item);
+                else throw new InvalidArmourException();
             }
-        }
-        public override void PickUpArmour(Armour armour)
-        {
-            if (armour.ArmourType == ArmourType.ARMOUR_MAIL || armour.ArmourType == ArmourType.ARMOUR_PLATE)
-            {
-                if (armour.ItemLevel <= Level)
-                {
-                    base.PickUpArmour(armour);
-                }
-            }
-            else
-            {
-                throw new InvalidArmourException();
-
-            }
+            else throw new InvalidItemException();
         }
     }
 }
