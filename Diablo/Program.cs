@@ -7,21 +7,21 @@ using Diablo.Items;
 using Diablo.Items.Weapon;
 
 
-        Warrior warrior = new Warrior();
+        Warrior warrior = new Warrior("Paul");
         Weapon levelFiveAxe = new Weapon()
         {
             ItemName = "Common axe",
-            ItemLevel = 5,
+            ItemLevel = 4,
             ItemSlot = ItemSlot.SLOT_WEAPON,
             WeaponType = WeaponType.WEAPON_AXE,
             WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
         };
 
-        warrior.PickUpItem(levelFiveAxe);
+       warrior.PickUpItem(levelFiveAxe);
 
 
 //Console.WriteLine(levelFiveAxe.WeaponAttributes.Dps);
 Console.WriteLine(warrior.CharacterDamage());
 
-Console.WriteLine(warrior.GetGear().ToString());
+Console.WriteLine(warrior.GetInventory().ToString());
     

@@ -34,7 +34,10 @@ namespace Diablo.HeroClasses
             }
             Level = 1;
         }
-
+        /// <summary>
+        /// IDictionary is more easy-to-use when it's supposed to update, read and add, than 
+        /// the normal Dictionary
+        /// </summary>
         private readonly IDictionary<ItemSlot, Item> Inventory = new Dictionary<ItemSlot, Item>();
 
         public Item this[ItemSlot key]
@@ -45,8 +48,11 @@ namespace Diablo.HeroClasses
             // updates if exists, adds if doesn't exist
             set { Inventory[key] = value; }
         }
-
-        public StringBuilder GetGear()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>StringBuilder</returns>
+        public StringBuilder GetCharacterInfo()
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append($"Name: {Name}");
@@ -87,6 +93,11 @@ namespace Diablo.HeroClasses
                 return Math.Round((Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.Dps * (1 + TotalPrimaryAttributes.Strength / 100), 2);
             }
             else return Math.Round(1 + TotalPrimaryAttributes.Strength / 100, 2);
+        }
+
+        public IDictionary<ItemSlot, Item> GetInventory()
+        {
+            return Inventory;
         }
     }
 }

@@ -13,8 +13,6 @@ namespace Diablo.HeroClasses
 {
     public class Warrior : Hero
     {
-
-
         public Warrior()
         {
             BasePrimaryAttributes = new PrimaryAttributes(5, 2, 1);
@@ -22,30 +20,27 @@ namespace Diablo.HeroClasses
             CharacterWeaponTypes = new List<WeaponType>() { WeaponType.WEAPON_SWORD, WeaponType.WEAPON_HAMMER, WeaponType.WEAPON_AXE };
             CharacterArmourTypes = new List<ArmourType>() { ArmourType.ARMOUR_MAIL, ArmourType.ARMOUR_PLATE };
         }
-        public Warrior(string _name) : base(_name) { }
-
-
+        public Warrior(string _name) : base(_name)
+        {
+            BasePrimaryAttributes = new PrimaryAttributes(5, 2, 1);
+            TotalPrimaryAttributes = new PrimaryAttributes(5, 2, 1);
+            CharacterWeaponTypes = new List<WeaponType>() { WeaponType.WEAPON_SWORD, WeaponType.WEAPON_HAMMER, WeaponType.WEAPON_AXE };
+            CharacterArmourTypes = new List<ArmourType>() { ArmourType.ARMOUR_MAIL, ArmourType.ARMOUR_PLATE };
+        }
         public override void LevelUp()
         {
             base.LevelUp();
         }
-
         public override void PickUpItem(IEquipable item)
         {
             Type type = item.GetType();
             if (type.Name == typeof(Weapon).Name)
             {
-                try
+                if (CharacterWeaponTypes.Contains((item as Weapon)!.WeaponType) && (item as Weapon)!.ItemLevel <= Level)
                 {
-                    if (CharacterWeaponTypes.Contains((item as Weapon)!.WeaponType) && (item as Weapon)!.ItemLevel <= Level) 
-                    {
-                        base.PickUpItem(item);
-                    } 
+                    base.PickUpItem(item);
                 }
-                catch (InvalidWeaponException)
-                {
-                    throw new InvalidWeaponException();
-                }
+                else  throw new InvalidWeaponException();
             }
             else if (type.Name == typeof(Armour).Name)
             {

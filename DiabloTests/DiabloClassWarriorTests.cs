@@ -5,6 +5,7 @@ using Diablo.Items;
 using Diablo.Items.Armour;
 using Diablo.Items.Weapon;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Assert = Xunit.Assert;
 
 namespace DiabloTests
@@ -12,57 +13,51 @@ namespace DiabloTests
     public class DiabloTClassTests
     {
         //these are used on several tests
-        private Warrior warriorTest;
-        private Rogue rogueTest;
-        private Mage mageTest;
-        private Ranger rangerTest;
-        private Weapon weaponTest;
-        private Weapon levelFiveAxe;
-        private Weapon testBow;
-        private Armour testPlateBody;
-        private Weapon levelOneAxe;
+        private Warrior warriorTest = new Warrior();
+        private Weapon levelFiveAxe = new Weapon()
+        {
+            ItemName = "Common axe",
+            ItemLevel = 5,
+            ItemSlot = ItemSlot.SLOT_WEAPON,
+            WeaponType = WeaponType.WEAPON_AXE,
+            WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
+        };
+        private Weapon testBow = new Weapon()
+        {
+            ItemName = "Common bow",
+            ItemLevel = 1,
+            ItemSlot = ItemSlot.SLOT_WEAPON,
+            WeaponType = WeaponType.WEAPON_BOW,
+            WeaponAttributes = new WeaponAttributes() { Damage = 12, AttackSpeed = 0.8 }
+        };
+        private Armour testPlateBody = new Armour()
+        {
+            ItemName = "Common plate body armor",
+            ItemLevel = 5,
+            ItemSlot = ItemSlot.SLOT_BODY,
+            ArmourType = ArmourType.ARMOUR_PLATE,
+            Attributes = new PrimaryAttributes() { Strength = 1 }
+        };
+        private Weapon levelOneAxe = new Weapon()
+        {
+            ItemName = "Common axe",
+            ItemLevel = 1,
+            ItemSlot = ItemSlot.SLOT_WEAPON,
+            WeaponType = WeaponType.WEAPON_AXE,
+            WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
+        };
+        private Armour levelOneBody = new Armour()
+        {
+            ItemName = "Common plate body armor",
+            ItemLevel = 1,
+            ItemSlot = ItemSlot.SLOT_BODY,
+            ArmourType = ArmourType.ARMOUR_PLATE,
+            Attributes = new PrimaryAttributes() { Strength = 1 }
+        };
         [TestInitialize]
         public void TestInitialize() // initialize the classes before test methods use them
         {
-            warriorTest = new Warrior();
-            rogueTest = new Rogue();
-            mageTest = new Mage();
-            rangerTest = new Ranger();
-            weaponTest = new Weapon();
-
-
-            levelFiveAxe = new Weapon()
-            {
-                ItemName = "Common axe",
-                ItemLevel = 5,
-                ItemSlot = ItemSlot.SLOT_WEAPON,
-                WeaponType = WeaponType.WEAPON_AXE,
-                WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
-            };
-            levelOneAxe = new Weapon()
-            {
-                ItemName = "Common axe",
-                ItemLevel = 5,
-                ItemSlot = ItemSlot.SLOT_WEAPON,
-                WeaponType = WeaponType.WEAPON_AXE,
-                WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
-            };
-            testBow = new Weapon()
-            {
-                ItemName = "Common bow",
-                ItemLevel = 1,
-                ItemSlot = ItemSlot.SLOT_WEAPON,
-                WeaponType = WeaponType.WEAPON_BOW,
-                WeaponAttributes = new WeaponAttributes() { Damage = 12, AttackSpeed = 0.8 }
-            };
-            testPlateBody = new Armour()
-            {
-                ItemName = "Common plate body armor",
-                ItemLevel = 1,
-                ItemSlot = ItemSlot.SLOT_BODY,
-                ArmourType = ArmourType.ARMOUR_PLATE,
-                Attributes = new PrimaryAttributes() { Strength = 1 }
-            };
+            // never gets called... dunno why
         }
         [Fact]
         public void Create_New_Warrior()
@@ -118,27 +113,44 @@ namespace DiabloTests
             // Arrange
             // Act
             warriorTest.PickUpItem(levelOneAxe);
-            warriorTest.
+            //warriorTest.
             // Assert
-            //Assert.
+            Assert.True(warriorTest.GetInventory().ContainsKey(levelOneAxe.ItemSlot));
         }
-        //[Fact]
-        //public void Throw_Exception_InvalidWeaponException()
-        //{
-        //    // Arrange
-        //    // Act
-        //    Action act = () => warriorTest.PickUpItem(levelFiveAxe);
-        //    // Assert
-        //    Assert.Throws<InvalidWeaponException>(act);
-        //}
-        //[Fact]
-        //public void Throw_Exception_InvalidArmourExceprion()
-        //{
-        //    // Arrange
-        //    // Act
-        //    // Assert
-        //    Assert.Throws<InvalidArmourException>(() => warriorTest.PickUpItem(levelFivePlate));
-        //}
+        [Fact]
+        public void Should_Throw_Exception_InvalidWeaponException()
+        {
+            // Arrange
+            warriorTest = new Warrior();
+            Weapon levelFourAxe = new Weapon()
+            {
+                ItemName = "Common axe",
+                ItemLevel = 4,
+                ItemSlot = ItemSlot.SLOT_WEAPON,
+                WeaponType = WeaponType.WEAPON_AXE,
+                WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
+            };
+            // Act
+            Action act = () => warriorTest.PickUpItem(levelFourAxe);
+            // Assert
+            Assert.Throws<InvalidWeaponException>( act);
 
+        }
+        [Fact]
+        public void Should_Throw_Exception_InvalidArmourException()
+        {
+            // Arrange
+            // Act
+            Action act = () => warriorTest.PickUpItem(testPlateBody);
+            // Assert
+            Assert.Throws<InvalidArmourException>(act);
+        }
+        [Fact]
+        public void Should_Throw_New_InvalidItemException()
+        {
+            // Arrange
+            // Act
+            // Assert
+        }
     }
 }
