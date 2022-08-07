@@ -8,8 +8,8 @@ namespace Diablo.Items.Weapon
 {
     public struct WeaponAttributes
     {
-        public double Damage { private get; set; }
-        public double AttackSpeed { private get; set; }
+        public double Damage { get; set; }
+        public double AttackSpeed { get; set; }
 
         public double Dps
         {

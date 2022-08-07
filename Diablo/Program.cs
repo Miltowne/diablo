@@ -3,7 +3,9 @@
 
 //[STAThread] 
 using Diablo.HeroClasses;
+using Diablo.HeroClasses.SubClassesToHeroes;
 using Diablo.Items;
+using Diablo.Items.Armour;
 using Diablo.Items.Weapon;
 
 
@@ -11,17 +13,50 @@ using Diablo.Items.Weapon;
         Weapon levelFiveAxe = new Weapon()
         {
             ItemName = "Common axe",
-            ItemLevel = 4,
+            ItemLevel = 1,
             ItemSlot = ItemSlot.SLOT_WEAPON,
             WeaponType = WeaponType.WEAPON_AXE,
             WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
         };
 
+
+Armour testPlateBody = new Armour()
+{
+    ItemName = "Common plate body armor",
+    ItemLevel = 5,
+    ItemSlot = ItemSlot.SLOT_HEAD,
+    ArmourType = ArmourType.ARMOUR_PLATE,
+    Attributes = new PrimaryAttributes() { Strength = 1 }
+};
+Armour testPlate1Body = new Armour()
+{
+    ItemName = "Common plate legs armor",
+    ItemLevel = 5,
+    ItemSlot = ItemSlot.SLOT_LEGS,
+    ArmourType = ArmourType.ARMOUR_PLATE,
+    Attributes = new PrimaryAttributes() { Strength = 1 }
+};
+Armour testPlate2Body = new Armour()
+{
+    ItemName = "Common plate body armor",
+    ItemLevel = 5,
+    ItemSlot = ItemSlot.SLOT_BODY,
+    ArmourType = ArmourType.ARMOUR_PLATE,
+    Attributes = new PrimaryAttributes() { Strength = 1 }
+};
        warrior.PickUpItem(levelFiveAxe);
+warrior.LevelUp();
+warrior.LevelUp();
+warrior.LevelUp();
+warrior.LevelUp();
+warrior.LevelUp();
+warrior.LevelUp();
+
+warrior.PickUpItem(testPlateBody);
+warrior.PickUpItem(testPlate1Body);
+warrior.PickUpItem(testPlate2Body);
 
 
-//Console.WriteLine(levelFiveAxe.WeaponAttributes.Dps);
-Console.WriteLine(warrior.CharacterDamage());
 
-Console.WriteLine(warrior.GetInventory().ToString());
+Console.WriteLine(warrior.GetCharacterInfo().ToString());
     

@@ -38,6 +38,14 @@ namespace DiabloTests
             ArmourType = ArmourType.ARMOUR_PLATE,
             Attributes = new PrimaryAttributes() { Strength = 1 }
         };
+        private Armour highStrengthHEAD = new Armour()
+        {
+            ItemName = "Rare plate body armor of strength",
+            ItemLevel = 1,
+            ItemSlot = ItemSlot.SLOT_HEAD,
+            ArmourType = ArmourType.ARMOUR_PLATE,
+            Attributes = new PrimaryAttributes() { Strength = 40 }
+        };
         private Weapon levelOneAxe = new Weapon()
         {
             ItemName = "Common axe",
@@ -118,6 +126,18 @@ namespace DiabloTests
             Assert.True(warriorTest.GetInventory().ContainsKey(levelOneAxe.ItemSlot));
         }
         [Fact]
+        public void Pick_Up_Weapon_And_Exist_In_Inventory()
+        {
+            // Arrange
+            Warrior warrior = new Warrior();
+            warriorTest.PickUpItem(levelOneAxe);
+            // Act
+            // Assert
+            //Assert.True(warriorTest.GetCharacterInfo().ToString().Contains(levelOneAxe.ItemName));
+            Assert.Contains(levelOneAxe.ItemName!.ToString(), warriorTest.GetCharacterInfo().ToString());
+
+        }
+        [Fact]
         public void Should_Throw_Exception_InvalidWeaponException()
         {
             // Arrange
@@ -133,7 +153,7 @@ namespace DiabloTests
             // Act
             Action act = () => warriorTest.PickUpItem(levelFourAxe);
             // Assert
-            Assert.Throws<InvalidWeaponException>( act);
+            Assert.Throws<InvalidWeaponException>(act);
 
         }
         [Fact]
@@ -146,11 +166,29 @@ namespace DiabloTests
             Assert.Throws<InvalidArmourException>(act);
         }
         [Fact]
-        public void Should_Throw_New_InvalidItemException()
+        public void CharacterDamage_GetWeapon_ReturnNewDamageWithWeapon()
         {
             // Arrange
+            warriorTest.PickUpItem(levelOneAxe);
+            double expected = 8.09;
             // Act
+            double actual = warriorTest.CharacterDamage();
             // Assert
+            Assert.Equal(expected, actual);
+        }
+        [Fact]
+        public void CharacterDamage_GetWeapon_ReturnNewDamageWithWeaponAndArmour()
+        {
+            // Arrange
+            warriorTest.PickUpItem(levelOneAxe);
+            warriorTest.PickUpItem(highStrengthHEAD);
+
+
+            double expected = 12;
+            // Act
+            double actual = warriorTest.CharacterDamage();
+            // Assert
+            Assert.Equal(expected, actual);
         }
     }
 }

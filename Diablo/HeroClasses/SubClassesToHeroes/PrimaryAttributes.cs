@@ -28,6 +28,10 @@ namespace Diablo.HeroClasses.SubClassesToHeroes
         {
             return new PrimaryAttributes(oldValue.Strength + newValue.Strength, oldValue.Dexterity + newValue.Dexterity, oldValue.Intelligence + newValue.Intelligence);
         }
+        public static PrimaryAttributes operator -(PrimaryAttributes oldValue, PrimaryAttributes newValue)
+        {
+            return new PrimaryAttributes(oldValue.Strength - newValue.Strength, oldValue.Dexterity - newValue.Dexterity, oldValue.Intelligence - newValue.Intelligence);
+        }
 
     }
 }

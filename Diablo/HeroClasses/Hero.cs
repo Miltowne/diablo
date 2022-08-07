@@ -28,8 +28,8 @@ namespace Diablo.HeroClasses
         }
         public Hero(string? _name)
         {
-            if (_name is not null) 
-            { 
+            if (_name is not null)
+            {
                 Name = _name;
             }
             Level = 1;
@@ -49,7 +49,7 @@ namespace Diablo.HeroClasses
             set { Inventory[key] = value; }
         }
         /// <summary>
-        /// 
+        /// Creates a StringBuilder with all the essential stats and inventory items
         /// </summary>
         /// <returns>StringBuilder</returns>
         public StringBuilder GetCharacterInfo()
@@ -69,20 +69,91 @@ namespace Diablo.HeroClasses
             stringBuilder.Append(Environment.NewLine);
             stringBuilder.Append($"Created: {DateTime.Now}");
             stringBuilder.Append(Environment.NewLine);
+            stringBuilder.Append(Environment.NewLine);
+            stringBuilder.Append($"Inventory Items");
+            stringBuilder.Append(Environment.NewLine);
+            stringBuilder.Append(Environment.NewLine);
+            if (Inventory.ContainsKey(ItemSlot.SLOT_HEAD))
+            {
+                stringBuilder.Append($"Head: {(Inventory[ItemSlot.SLOT_HEAD] as Armour)!.ItemName}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Level: {(Inventory[ItemSlot.SLOT_HEAD] as Armour)!.ItemLevel}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Strength: {(Inventory[ItemSlot.SLOT_BODY] as Armour)!.Attributes.GetAllAttributes()[0]}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Dexterity: {(Inventory[ItemSlot.SLOT_BODY] as Armour)!.Attributes.GetAllAttributes()[1]}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Intelligence: {(Inventory[ItemSlot.SLOT_BODY] as Armour)!.Attributes.GetAllAttributes()[2]}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append(Environment.NewLine);
+            }
+            if (Inventory.ContainsKey(ItemSlot.SLOT_BODY))
+            {
+                stringBuilder.Append($"Body: {(Inventory[ItemSlot.SLOT_BODY] as Armour)!.ItemName}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Level: {(Inventory[ItemSlot.SLOT_BODY] as Armour)!.ItemLevel}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Strength: {(Inventory[ItemSlot.SLOT_BODY] as Armour)!.Attributes.GetAllAttributes()[0]}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Dexterity: {(Inventory[ItemSlot.SLOT_BODY] as Armour)!.Attributes.GetAllAttributes()[1]}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Intelligence: {(Inventory[ItemSlot.SLOT_BODY] as Armour)!.Attributes.GetAllAttributes()[2]}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append(Environment.NewLine);
+            }
+            if (Inventory.ContainsKey(ItemSlot.SLOT_LEGS))
+            {
+                stringBuilder.Append($"Legs: {(Inventory[ItemSlot.SLOT_LEGS] as Armour)!.ItemName}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Level: {(Inventory[ItemSlot.SLOT_LEGS] as Armour)!.ItemLevel}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Strength: {(Inventory[ItemSlot.SLOT_HEAD] as Armour)!.Attributes.GetAllAttributes()[0]}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Dexterity: {(Inventory[ItemSlot.SLOT_HEAD] as Armour)!.Attributes.GetAllAttributes()[1]}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Intelligence: {(Inventory[ItemSlot.SLOT_HEAD] as Armour)!.Attributes.GetAllAttributes()[2]}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append(Environment.NewLine);
+
+            }
+            if (Inventory.ContainsKey(ItemSlot.SLOT_WEAPON))
+            {
+                stringBuilder.Append($"Weapon: {(Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.ItemName}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Level: {(Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.ItemLevel}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Type: {(Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponType}"); // Attribute it gives
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Attack Speed: {(Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.AttackSpeed}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Damage: {(Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.AttackSpeed}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append($"Dmg: {(Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.Dps}");
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append(Environment.NewLine);
+            }
             return stringBuilder;
         }
-
 
         public virtual void LevelUp()
         {
             this.Level++;
         }
 
+        private void UpdateAttributes()
+        {
+            //Attribute 
+        }
         public virtual void PickUpItem(IEquipable item)
         {
             Type type = item.GetType();
             if (type == typeof(Weapon)) Inventory.Add((item as Weapon)!.ItemSlot, (item as Weapon)!);
-            else if (type == typeof(Armour)) Inventory.Add((item as Armour)!.ItemSlot, (item as Armour)!);
+            else if (type == typeof(Armour))
+            { 
+                Inventory.Add((item as Armour)!.ItemSlot, (item as Armour)!);
+                UpdateAttributes();
+            }
+            
             else throw new Exception("Hero.PickUpItem: Item is neither type Weapon or Armour");
         }
 
