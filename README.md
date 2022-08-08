@@ -20,7 +20,7 @@ using Diablo.Items;
 using Diablo.Items.Armour;
 using Diablo.Items.Weapon;
 
-
+```c#
 # creates a hero
 Warrior warrior = new Warrior();
 
@@ -39,6 +39,7 @@ warrior.Stats
 
 # returns damage of the character
 warrior.Dps
+```
 
 ## Author
 Tim Jonasson
