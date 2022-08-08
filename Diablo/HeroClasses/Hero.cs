@@ -1,4 +1,5 @@
-﻿using Diablo.HeroClasses.SubClassesToHeroes;
+﻿using Diablo.Helpers;
+using Diablo.HeroClasses.SubClassesToHeroes;
 using Diablo.Items;
 using Diablo.Items.Armour;
 using Diablo.Items.Weapon;
@@ -9,30 +10,28 @@ namespace Diablo.HeroClasses
     public abstract class Hero
     {
 
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
-        public int Level { get; private set; }
-
+        public int Level { get; private set; } = 1;
 
         public PrimaryAttributes BasePrimaryAttributes { get; protected set; } // ökar när du levlar upp
         public PrimaryAttributes TotalPrimaryAttributes { get; protected set; } // ökar när du har Armour / härstammar BasePrima...
 
-        protected List<WeaponType> CharacterWeaponTypes { get; set; }
-        protected List<ArmourType> CharacterArmourTypes { get; set; }
+        public List<WeaponType> CharacterWeaponTypes { get; protected set; }
+        public  List<ArmourType> CharacterArmourTypes { get; protected set; }
 
 
+        public string Stats => CharacterStatDisplay().ToString(); 
 
         public Hero()
         {
-            Level = 1;
         }
-        public Hero(string? _name)
+        public Hero(string _name)
         {
             if (_name is not null)
             {
                 Name = _name;
             }
-            Level = 1;
         }
         /// <summary>
         /// IDictionary is more easy-to-use when it's supposed to update, read and add, than 
@@ -52,9 +51,10 @@ namespace Diablo.HeroClasses
         /// Creates a StringBuilder with all the essential stats and inventory items
         /// </summary>
         /// <returns>StringBuilder</returns>
-        public StringBuilder GetCharacterInfo()
+        private StringBuilder CharacterStatDisplay()
         {
             StringBuilder stringBuilder = new StringBuilder();
+
             stringBuilder.Append($"Name: {Name}");
             stringBuilder.Append(Environment.NewLine);
             stringBuilder.Append($"Level: {Level}");
@@ -122,7 +122,7 @@ namespace Diablo.HeroClasses
                 stringBuilder.Append(Environment.NewLine);
                 stringBuilder.Append($"Level: {(Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.ItemLevel}");
                 stringBuilder.Append(Environment.NewLine);
-                stringBuilder.Append($"Type: {(Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponType}"); // Attribute it gives
+                stringBuilder.Append($"Type: {(Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponType}");
                 stringBuilder.Append(Environment.NewLine);
                 stringBuilder.Append($"Attack Speed: {(Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.AttackSpeed}");
                 stringBuilder.Append(Environment.NewLine);
@@ -142,10 +142,17 @@ namespace Diablo.HeroClasses
 
         private void UpdateAttributes(Item item)
         {
+            if (item.GetType() != typeof(Armour)) {
+                return;
+            }
+
+            Armour armour = (Armour)item;
+
             if (Inventory.ContainsKey(item.ItemSlot))
             {
-                TotalPrimaryAttributes -= (Inventory[item.ItemSlot] as Armour)!.Attributes;
+                TotalPrimaryAttributes -= armour.Attributes;
             }
+
             TotalPrimaryAttributes += (item as Armour)!.Attributes;
         }
         public virtual void PickUpItem(IEquipable item)
@@ -160,22 +167,15 @@ namespace Diablo.HeroClasses
                 Inventory[(item as Item)!.ItemSlot] = (item as Armour)!;
                 UpdateAttributes((item as Item)!);
             }
-            
-            else throw new Exception("Hero.PickUpItem: Item is neither type Weapon or Armour");
+            else throw new InvalidItemException("Hero.PickUpItem: Item is neither type Weapon or Armour");
         }
-
         public virtual double CharacterDamage()
         {
             if (Inventory.ContainsKey(ItemSlot.SLOT_WEAPON))
             {
                 return Math.Round((Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.Dps * (1 + TotalPrimaryAttributes.Strength / 100), 2);
             }
-            else return Math.Round(1 + (TotalPrimaryAttributes.Strength / 100), 2);
-        }
-
-        public IDictionary<ItemSlot, Item> GetInventory()
-        {
-            return Inventory;
+            else return Math.Round(1 + TotalPrimaryAttributes.Strength / 100, 2);
         }
     }
 }

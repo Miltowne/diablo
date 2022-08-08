@@ -64,11 +64,13 @@ warrior.LevelUp();
 warrior.PickUpItem(testPlateBody);
 warrior.PickUpItem(testPlate1Body);
 warrior.PickUpItem(testPlate2Body);
-Console.WriteLine(warrior.GetCharacterInfo().ToString());
+//Console.WriteLine(warrior.GetCharacterInfo().ToString());
 
 warrior.PickUpItem(testPlate3Body);
 
 
 
-Console.WriteLine(warrior.GetCharacterInfo().ToString());
-    
+Console.WriteLine(warrior.Stats);
+Console.WriteLine(warrior.Stats);
+
+

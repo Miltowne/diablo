@@ -11,10 +11,6 @@ namespace Diablo.Items.Weapon
         public double Damage { get; set; }
         public double AttackSpeed { get; set; }
 
-        public double Dps
-        {
-            get { return Math.Round(Damage * AttackSpeed, 2); }
-        }
-
+        public double Dps => Math.Round(Damage * AttackSpeed, 2);
     }
 }

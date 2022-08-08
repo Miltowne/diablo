@@ -15,67 +15,19 @@ namespace DiabloTests
     public class DiabloTClassTests : TestsBase
     {
         //these are used on several tests
-        //private Warrior warriorTest;
-        private Weapon levelFiveAxe = new Weapon()
-        {
-            ItemName = "Common axe",
-            ItemLevel = 5,
-            ItemSlot = ItemSlot.SLOT_WEAPON,
-            WeaponType = WeaponType.WEAPON_AXE,
-            WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
-        };
-        private Weapon testBow = new Weapon()
-        {
-            ItemName = "Common bow",
-            ItemLevel = 1,
-            ItemSlot = ItemSlot.SLOT_WEAPON,
-            WeaponType = WeaponType.WEAPON_BOW,
-            WeaponAttributes = new WeaponAttributes() { Damage = 12, AttackSpeed = 0.8 }
-        };
-        private Armour testPlateBody = new Armour()
-        {
-            ItemName = "Common plate body armor",
-            ItemLevel = 5,
-            ItemSlot = ItemSlot.SLOT_BODY,
-            ArmourType = ArmourType.ARMOUR_PLATE,
-            Attributes = new PrimaryAttributes() { Strength = 1 }
-        };
-        private Armour highStrengthHEAD = new Armour()
-        {
-            ItemName = "Rare plate body armor of strength",
-            ItemLevel = 1,
-            ItemSlot = ItemSlot.SLOT_HEAD,
-            ArmourType = ArmourType.ARMOUR_PLATE,
-            Attributes = new PrimaryAttributes() { Strength = 400 }
-        };
-        private Weapon levelOneAxe = new Weapon()
-        {
-            ItemName = "Common axe",
-            ItemLevel = 1,
-            ItemSlot = ItemSlot.SLOT_WEAPON,
-            WeaponType = WeaponType.WEAPON_AXE,
-            WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
-        };
-        private Armour levelOneBody = new Armour()
-        {
-            ItemName = "Common plate body armor",
-            ItemLevel = 1,
-            ItemSlot = ItemSlot.SLOT_BODY,
-            ArmourType = ArmourType.ARMOUR_PLATE,
-            Attributes = new PrimaryAttributes() { Strength = 1 }
-        };
-        [TestInitialize]
-        public void TestInitialize() // initialize the classes before test methods use them
-        {
-            // never gets called... dunno why
-        }
-
-        protected DiabloTClassTests() : base()
+        /// <summary>
+        /// Instead of [TestInitialize], creates instances of class warrior and a few Class.Weapon for re-use testing
+        /// </summary>
+        public DiabloTClassTests() : base(WeaponType.WEAPON_AXE, ArmourType.ARMOUR_PLATE)
         {
             // Do "global" initialization here; Called before every test method.
         }
+
+        /// <summary>
+        /// Tests should speak for themselves, Fact and Theory tests
+        /// </summary>
         [Fact]
-        public void Create_New_Warrior()
+        public void Warrior_CreateNewWarrior_ShouldNotBeNull()
         {
             // Arrange
             Warrior warrior = new Warrior();
@@ -83,92 +35,81 @@ namespace DiabloTests
             // Assert
             Assert.NotNull(warrior);
         }
-
         [Fact]
-        public void Name_New_Warrior_On_Init()
+        public void Name_NameWarriorOnInit_ShouldBeNamedPaul()
         {
             // Arrange
-            Warrior warrior1 = new Warrior("Paul");
+            Warrior warrior = new Warrior("Paul");
             // Act
-            string actual = warrior1.Name;
+            string actual = warrior.Name;
             string expected = "Paul";
             // Assert
             Assert.Equal(expected, actual);
         }
         [Fact]
-        public void Level_Up_New_Warrior()
+        public void Level_LevelUpWarrior_ShouldReturnLevelTwo()
         {
             // Arrange
-            Warrior warrior = new Warrior();
-            Ranger ranger = new Ranger();
-
-
+            warriorTest.LevelUp();
             // Act
-            warrior.LevelUp();
-            int actual = warrior.Level;
+            int actual = warriorTest.Level;
             int expected = 2;
             // Assert
             Assert.Equal(actual, expected);
         }
 
         [Fact]
-        public void Get_Attributes_From_Warrior()
+        public void Attributes_GetBaseAttributesOnInit_ShouldReturnFiveTwoOne()
         {
             // Arrange
-            Warrior warrior = new Warrior();
             // Act
-            double[] actual = warrior.BasePrimaryAttributes.GetAllAttributes();
+            double[] actual = warriorTest.BasePrimaryAttributes.GetAllAttributes();
             double[] expected = new double[] { 5, 2, 1 };
             // Assert
             Assert.Equal(actual, expected);
         }
         [Fact]
-        public void Pick_Up_Weapon_Warrior()
+        public void PickUpItem_PickUpItem_ShouldContainItemName()
         {
             // Arrange
-            // Act
-            warriorTest.PickUpItem(levelOneAxe);
-            //warriorTest.
-            // Assert
-            Assert.True(warriorTest.GetInventory().ContainsKey(levelOneAxe.ItemSlot));
-        }
-        [Fact]
-        public void Pick_Up_Weapon_And_Exist_In_Inventory()
-        {
-            // Arrange
-            Warrior warrior = new Warrior();
             warriorTest.PickUpItem(levelOneAxe);
             // Act
             // Assert
-            //Assert.True(warriorTest.GetCharacterInfo().ToString().Contains(levelOneAxe.ItemName));
-            Assert.Contains(levelOneAxe.ItemName!.ToString(), warriorTest.GetCharacterInfo().ToString());
-
+            Assert.Contains(levelOneAxe.ItemName,warriorTest.Stats);
         }
         [Fact]
-        public void Should_Throw_Exception_InvalidWeaponException()
+        public void PickUpItem_PickToHighLevelWeapon_ShouldThrowInvalidWeaponException()
         {
             // Arrange
-            warriorTest = new Warrior();
-            Weapon levelFourAxe = new Weapon()
-            {
-                ItemName = "Common axe",
-                ItemLevel = 4,
-                ItemSlot = ItemSlot.SLOT_WEAPON,
-                WeaponType = WeaponType.WEAPON_AXE,
-                WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
-            };
             // Act
             Action act = () => warriorTest.PickUpItem(levelFourAxe);
             // Assert
             Assert.Throws<InvalidWeaponException>(act);
-
         }
         [Fact]
-        public void Should_Throw_Exception_InvalidArmourException()
+        public void PickUpItem_PickToWrongWeaponType_ShouldThrowInvalidWeaponException()
         {
             // Arrange
             // Act
-            Action act = () => warriorTest.PickUpItem(testPlateBody);
+            Action act = () => warriorTest.PickUpItem(daggerTest);
+            // Assert
+            Assert.Throws<InvalidWeaponException>(act);
+        }
+        [Fact]
+        public void PickUpItem_PickToHighLevelArmour_ShouldThrowInvalidArmourException()
+        {
+            // Arrange
+            // Act
+            Action act = () => warriorTest.PickUpItem(levelFourBody);
+            // Assert
+            Assert.Throws<InvalidArmourException>(act);
+        }
+        [Fact]
+        public void PickUpItem_PickToWrongArmourType_ShouldThrowInvalidArmourException()
+        {
+            // Arrange
+            // Act
+            Action act = () => warriorTest.PickUpItem(headInClothTest);
             // Assert
             Assert.Throws<InvalidArmourException>(act);
         }
@@ -183,62 +124,77 @@ namespace DiabloTests
             // Assert
             Assert.Equal(expected, actual);
         }
-        //[Fact]
-        //public void CharacterDamage_GetWeapon_ReturnNewDamageWithArmour()
-        //{
-        //    // Arrange
-        //    Warrior warrior = new Warrior();
-        //    warrior.PickUpItem(highStrengthHEAD);
-
-
-        //    double expected = 4;
-        //    // Act
-        //    double actual = warrior.CharacterDamage();
-        //    // Assert
-        //    Assert.Equal(expected, actual);
-        //}
-        //[Fact]
-        //public void PickUpItem_UpdateWithNewWeapon_ReturnOnlyNewWeapon()
-        //{
-        //    // Arrange
-        //    Warrior warrior = new Warrior();
-        //    Weapon levelOneAxe = new Weapon()
-        //    {
-        //        ItemName = "Common axe",
-        //        ItemLevel = 1,
-        //        ItemSlot = ItemSlot.SLOT_WEAPON,
-        //        WeaponType = WeaponType.WEAPON_AXE,
-        //        WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
-        //    }; 
-        //    Weapon levelOneAxe2 = new Weapon()
-        //    {
-        //        ItemName = "Common axe",
-        //        ItemLevel = 1,
-        //        ItemSlot = ItemSlot.SLOT_WEAPON,
-        //        WeaponType = WeaponType.WEAPON_AXE,
-        //        WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
-        //    };
-        //    warrior.PickUpItem(levelOneAxe);
-        //    warrior.PickUpItem(levelOneAxe2);
-        //    // Act
-        //    var textData = warrior.GetCharacterInfo().ToString();
-        //    // Assert
-        //    Assert.Contains(textData, levelOneAxe2.ItemName);
-        //}
+        [Fact]
+        public void CharacterDamage_GetArmour_ReturnNewDamageWithArmour()
+        {
+            // Arrange
+            warriorTest.PickUpItem(highStrengthHEADInPlate);
+            double expected = 1.05;
+            // Act
+            double actual = warriorTest.CharacterDamage();
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+        [Fact]
+        public void PickUpItem_UpdateWithNewWeapon_ReturnOnlyNewWeapon()
+        {
+            // Arrange
+            warriorTest.PickUpItem(testWeapon);
+            warriorTest.PickUpItem(testWeaponTwo);
+            // Act
+            string textData = warriorTest.Stats;
+            // Assert
+            Assert.Contains(testWeaponTwo.ItemName, textData);
+        }
+        [Fact]
+        public void PickUpItem_UpdateWithNewWeapon_NotContainFirstWeapon()
+        {
+            // Arrange
+            warriorTest.PickUpItem(testWeapon);
+            warriorTest.PickUpItem(testWeaponTwo);
+            // Act
+            string textData = warriorTest.Stats;
+            // Assert
+            Assert.DoesNotContain(testWeapon.ItemName, textData);
+        }
+        [Fact]
+        public void PickUpItem_UpdateWithNewArmour_NotContainFirstArmour()
+        {
+            // Arrange
+            warriorTest.PickUpItem(testArmourBody);
+            warriorTest.PickUpItem(testArmourBodyTwo);
+            // Act
+            string textData = warriorTest.Stats;
+            // Assert
+            Assert.DoesNotContain(testArmourBody.ItemName, textData);
+        }
         [Fact]
         public void HeroAttribute_NewLevel_ShouldReturnHigherAttributes()
         {
             // Arrange
+            warriorTest.LevelUp();
             // Act
+            double[] actual = warriorTest.BasePrimaryAttributes.GetAllAttributes();
+            double[] expected = new double[] { 5 + 3, 2 + 2, 1 + 1 };
             // Assert
+            Assert.Equal(actual, expected);
         }
-        [Theory]
-        public void a()
-        {
-            Warrior warrior = new Warrior();
-            Assert.True(true);
-            Assert.StrictEqual(1, 1);
-        }
+
+        //public void 
+
+        //[Theory]
+        //[MemberData(warriorTest.Stats)]
+        //[InlineData(warriorTest.TotalPrimaryAttributes, new double[] { 1, 2, 3 })]
+        //[InlineData(Mage mage = new Mage();)]
+        //public void WarriorBaseAttribute_Create(Hero hero, double[] attr)
+        //{
+        //    // Arrange
+        //    Warrior warrior = new Warrior();
+        //    // Act
+        //    // Assert
+        //    Assert.Equal(warrior.TotalPrimaryAttributes.Strength, 5);
+        //}
+
 
 
 
