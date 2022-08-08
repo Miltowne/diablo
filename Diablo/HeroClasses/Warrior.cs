@@ -29,6 +29,8 @@ namespace Diablo.HeroClasses
         }
         public override void LevelUp()
         {
+            BasePrimaryAttributes += new PrimaryAttributes(3, 2, 1);
+            TotalPrimaryAttributes += new PrimaryAttributes(3, 2, 1);
             base.LevelUp();
         }
         public override void PickUpItem(IEquipable item)

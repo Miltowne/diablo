@@ -10,10 +10,12 @@ using Assert = Xunit.Assert;
 
 namespace DiabloTests
 {
-    public class DiabloTClassTests
+
+    
+    public class DiabloTClassTests : TestsBase
     {
         //these are used on several tests
-        private Warrior warriorTest = new Warrior();
+        //private Warrior warriorTest;
         private Weapon levelFiveAxe = new Weapon()
         {
             ItemName = "Common axe",
@@ -44,7 +46,7 @@ namespace DiabloTests
             ItemLevel = 1,
             ItemSlot = ItemSlot.SLOT_HEAD,
             ArmourType = ArmourType.ARMOUR_PLATE,
-            Attributes = new PrimaryAttributes() { Strength = 40 }
+            Attributes = new PrimaryAttributes() { Strength = 400 }
         };
         private Weapon levelOneAxe = new Weapon()
         {
@@ -66,6 +68,11 @@ namespace DiabloTests
         public void TestInitialize() // initialize the classes before test methods use them
         {
             // never gets called... dunno why
+        }
+
+        protected DiabloTClassTests() : base()
+        {
+            // Do "global" initialization here; Called before every test method.
         }
         [Fact]
         public void Create_New_Warrior()
@@ -176,19 +183,66 @@ namespace DiabloTests
             // Assert
             Assert.Equal(expected, actual);
         }
+        //[Fact]
+        //public void CharacterDamage_GetWeapon_ReturnNewDamageWithArmour()
+        //{
+        //    // Arrange
+        //    Warrior warrior = new Warrior();
+        //    warrior.PickUpItem(highStrengthHEAD);
+
+
+        //    double expected = 4;
+        //    // Act
+        //    double actual = warrior.CharacterDamage();
+        //    // Assert
+        //    Assert.Equal(expected, actual);
+        //}
+        //[Fact]
+        //public void PickUpItem_UpdateWithNewWeapon_ReturnOnlyNewWeapon()
+        //{
+        //    // Arrange
+        //    Warrior warrior = new Warrior();
+        //    Weapon levelOneAxe = new Weapon()
+        //    {
+        //        ItemName = "Common axe",
+        //        ItemLevel = 1,
+        //        ItemSlot = ItemSlot.SLOT_WEAPON,
+        //        WeaponType = WeaponType.WEAPON_AXE,
+        //        WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
+        //    }; 
+        //    Weapon levelOneAxe2 = new Weapon()
+        //    {
+        //        ItemName = "Common axe",
+        //        ItemLevel = 1,
+        //        ItemSlot = ItemSlot.SLOT_WEAPON,
+        //        WeaponType = WeaponType.WEAPON_AXE,
+        //        WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
+        //    };
+        //    warrior.PickUpItem(levelOneAxe);
+        //    warrior.PickUpItem(levelOneAxe2);
+        //    // Act
+        //    var textData = warrior.GetCharacterInfo().ToString();
+        //    // Assert
+        //    Assert.Contains(textData, levelOneAxe2.ItemName);
+        //}
         [Fact]
-        public void CharacterDamage_GetWeapon_ReturnNewDamageWithWeaponAndArmour()
+        public void HeroAttribute_NewLevel_ShouldReturnHigherAttributes()
         {
             // Arrange
-            warriorTest.PickUpItem(levelOneAxe);
-            warriorTest.PickUpItem(highStrengthHEAD);
-
-
-            double expected = 12;
             // Act
-            double actual = warriorTest.CharacterDamage();
             // Assert
-            Assert.Equal(expected, actual);
         }
+        [Theory]
+        public void a()
+        {
+            Warrior warrior = new Warrior();
+            Assert.True(true);
+            Assert.StrictEqual(1, 1);
+        }
+
+
+
+
+        //MethodYouAreTesting_ConditionsItsBeingTestedUnder_ExpectedBehaviour().
     }
 }

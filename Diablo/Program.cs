@@ -42,10 +42,19 @@ Armour testPlate2Body = new Armour()
     ItemLevel = 5,
     ItemSlot = ItemSlot.SLOT_BODY,
     ArmourType = ArmourType.ARMOUR_PLATE,
-    Attributes = new PrimaryAttributes() { Strength = 1 }
+    Attributes = new PrimaryAttributes() { Strength = 20 }
 };
-       warrior.PickUpItem(levelFiveAxe);
+Armour testPlate3Body = new Armour()
+{
+    ItemName = "Common plate body armor",
+    ItemLevel = 5,
+    ItemSlot = ItemSlot.SLOT_BODY,
+    ArmourType = ArmourType.ARMOUR_PLATE,
+    Attributes = new PrimaryAttributes() { Strength = 40 }
+};
+warrior.PickUpItem(levelFiveAxe);
 warrior.LevelUp();
+
 warrior.LevelUp();
 warrior.LevelUp();
 warrior.LevelUp();
@@ -55,6 +64,9 @@ warrior.LevelUp();
 warrior.PickUpItem(testPlateBody);
 warrior.PickUpItem(testPlate1Body);
 warrior.PickUpItem(testPlate2Body);
+Console.WriteLine(warrior.GetCharacterInfo().ToString());
+
+warrior.PickUpItem(testPlate3Body);
 
 
 

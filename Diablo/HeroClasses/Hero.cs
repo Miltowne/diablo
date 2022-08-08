@@ -15,7 +15,7 @@ namespace Diablo.HeroClasses
 
 
         public PrimaryAttributes BasePrimaryAttributes { get; protected set; } // ökar när du levlar upp
-        protected PrimaryAttributes TotalPrimaryAttributes { get; set; } // ökar när du har Armour / härstammar BasePrima...
+        public PrimaryAttributes TotalPrimaryAttributes { get; protected set; } // ökar när du har Armour / härstammar BasePrima...
 
         protected List<WeaponType> CharacterWeaponTypes { get; set; }
         protected List<ArmourType> CharacterArmourTypes { get; set; }
@@ -38,7 +38,7 @@ namespace Diablo.HeroClasses
         /// IDictionary is more easy-to-use when it's supposed to update, read and add, than 
         /// the normal Dictionary
         /// </summary>
-        private readonly IDictionary<ItemSlot, Item> Inventory = new Dictionary<ItemSlot, Item>();
+        private Dictionary<ItemSlot, Item> Inventory = new Dictionary<ItemSlot, Item>();
 
         public Item this[ItemSlot key]
         {
@@ -140,18 +140,25 @@ namespace Diablo.HeroClasses
             this.Level++;
         }
 
-        private void UpdateAttributes()
+        private void UpdateAttributes(Item item)
         {
-            //Attribute 
+            if (Inventory.ContainsKey(item.ItemSlot))
+            {
+                TotalPrimaryAttributes -= (Inventory[item.ItemSlot] as Armour)!.Attributes;
+            }
+            TotalPrimaryAttributes += (item as Armour)!.Attributes;
         }
         public virtual void PickUpItem(IEquipable item)
         {
             Type type = item.GetType();
-            if (type == typeof(Weapon)) Inventory.Add((item as Weapon)!.ItemSlot, (item as Weapon)!);
+            if (type == typeof(Weapon)) 
+            {
+                Inventory[(item as Weapon)!.ItemSlot] = (item as Weapon)!;
+            } 
             else if (type == typeof(Armour))
             { 
-                Inventory.Add((item as Armour)!.ItemSlot, (item as Armour)!);
-                UpdateAttributes();
+                Inventory[(item as Item)!.ItemSlot] = (item as Armour)!;
+                UpdateAttributes((item as Item)!);
             }
             
             else throw new Exception("Hero.PickUpItem: Item is neither type Weapon or Armour");
@@ -163,7 +170,7 @@ namespace Diablo.HeroClasses
             {
                 return Math.Round((Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.Dps * (1 + TotalPrimaryAttributes.Strength / 100), 2);
             }
-            else return Math.Round(1 + TotalPrimaryAttributes.Strength / 100, 2);
+            else return Math.Round(1 + (TotalPrimaryAttributes.Strength / 100), 2);
         }
 
         public IDictionary<ItemSlot, Item> GetInventory()
