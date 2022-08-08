@@ -52,25 +52,33 @@ Armour testPlate3Body = new Armour()
     ArmourType = ArmourType.ARMOUR_PLATE,
     Attributes = new PrimaryAttributes() { Strength = 40 }
 };
-warrior.PickUpItem(levelFiveAxe);
-warrior.LevelUp();
+Armour testArmourBody = new Armour()
+{
+    ItemName = "Common plate body armor with style",
+    ItemLevel = 1,
+    ItemSlot = ItemSlot.SLOT_BODY,
+    ArmourType = ArmourType.ARMOUR_PLATE,
+    Attributes = new PrimaryAttributes() { Strength = 1 }
+};
+//warrior.PickUpItem(levelFiveAxe);
+//warrior.LevelUp();
 
-warrior.LevelUp();
-warrior.LevelUp();
-warrior.LevelUp();
-warrior.LevelUp();
-warrior.LevelUp();
+//warrior.LevelUp();
+//warrior.LevelUp();
+//warrior.LevelUp();
+//warrior.LevelUp();
+//warrior.LevelUp();
 
-warrior.PickUpItem(testPlateBody);
-warrior.PickUpItem(testPlate1Body);
-warrior.PickUpItem(testPlate2Body);
+//warrior.PickUpItem(testPlateBody);
+//warrior.PickUpItem(testPlate1Body);
+//warrior.PickUpItem(testPlate2Body);
+warrior.PickUpItem(testArmourBody);
+Console.WriteLine(warrior.CharacterDamage());
 //Console.WriteLine(warrior.GetCharacterInfo().ToString());
 
-warrior.PickUpItem(testPlate3Body);
-
-
+//warrior.PickUpItem(testPlate3Body);
 
 Console.WriteLine(warrior.Stats);
-Console.WriteLine(warrior.Stats);
+//Console.WriteLine(warrior.Stats);
 
 

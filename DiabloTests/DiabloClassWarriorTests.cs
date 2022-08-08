@@ -63,8 +63,8 @@ namespace DiabloTests
         {
             // Arrange
             // Act
-            double[] actual = warriorTest.BasePrimaryAttributes.GetAllAttributes();
-            double[] expected = new double[] { 5, 2, 1 };
+            int[] actual = warriorTest.BasePrimaryAttributes.GetAllAttributes();
+            int[] expected = new int[] { 5, 2, 1 };
             // Assert
             Assert.Equal(actual, expected);
         }
@@ -118,7 +118,7 @@ namespace DiabloTests
         {
             // Arrange
             warriorTest.PickUpItem(levelOneAxe);
-            double expected = 8.09;
+            double expected = 7.7;
             // Act
             double actual = warriorTest.CharacterDamage();
             // Assert
@@ -129,7 +129,7 @@ namespace DiabloTests
         {
             // Arrange
             warriorTest.PickUpItem(highStrengthHEADInPlate);
-            double expected = 1.05;
+            double expected = 1.45;
             // Act
             double actual = warriorTest.CharacterDamage();
             // Assert
@@ -174,26 +174,58 @@ namespace DiabloTests
             // Arrange
             warriorTest.LevelUp();
             // Act
-            double[] actual = warriorTest.BasePrimaryAttributes.GetAllAttributes();
-            double[] expected = new double[] { 5 + 3, 2 + 2, 1 + 1 };
+            int[] actual = warriorTest.BasePrimaryAttributes.GetAllAttributes();
+            int[] expected = new int[] { 5 + 3, 2 + 2, 1 + 1 };
             // Assert
             Assert.Equal(actual, expected);
         }
-
-        //public void 
-
-        //[Theory]
-        //[MemberData(warriorTest.Stats)]
-        //[InlineData(warriorTest.TotalPrimaryAttributes, new double[] { 1, 2, 3 })]
-        //[InlineData(Mage mage = new Mage();)]
-        //public void WarriorBaseAttribute_Create(Hero hero, double[] attr)
-        //{
-        //    // Arrange
-        //    Warrior warrior = new Warrior();
-        //    // Act
-        //    // Assert
-        //    Assert.Equal(warrior.TotalPrimaryAttributes.Strength, 5);
-        //}
+        [Fact]
+        public void HeroTotalAttribute_GiveArmour_TotalAttributesChanged()
+        {
+            // Arrange
+            int[] before = warriorTest.TotalPrimaryAttributes.GetAllAttributes();
+            warriorTest.PickUpItem(testArmourBody);
+            int[] after = warriorTest.TotalPrimaryAttributes.GetAllAttributes();
+            // Act
+            // Assert
+            Assert.NotEqual(before, after);
+        }
+        [Fact]
+        public void PickUpItem_PicksUpArmour_ReturnStringNewArmourEquipped()
+        {
+            // Arrange
+            // Act
+            string actual = warriorTest.PickUpItem(testArmourBody);
+            string expected = "New armour equipped!";
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+        [Fact]
+        public void PickUpItem_PicksUpWeapon_ReturnStringNewWeaponEquipped()
+        {
+            // Arrange
+            // Act
+            string actual = warriorTest.PickUpItem(testWeapon);
+            string expected = "New weapon equipped!";
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+        [Fact]
+        public void Dps_AddWeapon_NewDamage()
+        {
+            // Arrange
+            warriorTest.PickUpItem(testWeaponTwo);
+            // Act
+            double actual = warriorTest.CharacterDamage();
+            double expected = (7 * 1.1) * (1 + (5 / 100));
+            // Assert
+            Assert.Equal(Math.Round(expected, 2), actual);
+        }
+        [Fact]
+        public void Dps_NoWeaponOrArmourEquipped_ShouldReturnOne()
+        {
+            Assert.Equal(warriorTest.CharacterDamage(), 1);
+        }
 
 
 

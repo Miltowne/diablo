@@ -8,16 +8,16 @@ namespace Diablo.HeroClasses.SubClassesToHeroes
 {
     public struct PrimaryAttributes
     {
-        public double Strength { get; set; }
-        public double Dexterity { get; set; }
-        public double Intelligence { get; set; }
+        public int Strength { get; set; }
+        public int Dexterity { get; set; }
+        public int Intelligence { get; set; }
 
-        public double[] GetAllAttributes()
+        public int[] GetAllAttributes()
         {
-            return new double[] { Strength, Dexterity, Intelligence};
+            return new int[] { Strength, Dexterity, Intelligence};
         }
 
-        public PrimaryAttributes(double _strength, double _dexterity, double _intelligence)
+        public PrimaryAttributes(int _strength, int _dexterity, int _intelligence)
         {
             Strength = _strength;
             Dexterity = _dexterity;

@@ -153,19 +153,23 @@ namespace Diablo.HeroClasses
                 TotalPrimaryAttributes -= armour.Attributes;
             }
 
-            TotalPrimaryAttributes += (item as Armour)!.Attributes;
+                TotalPrimaryAttributes += armour.Attributes;
+
+
         }
-        public virtual void PickUpItem(IEquipable item)
+        public virtual string PickUpItem(IEquipable item)
         {
             Type type = item.GetType();
             if (type == typeof(Weapon)) 
             {
                 Inventory[(item as Weapon)!.ItemSlot] = (item as Weapon)!;
-            } 
+                return "New weapon equipped!";
+            }
             else if (type == typeof(Armour))
             { 
-                Inventory[(item as Item)!.ItemSlot] = (item as Armour)!;
                 UpdateAttributes((item as Item)!);
+                Inventory[(item as Item)!.ItemSlot] = (item as Armour)!;
+                return "New armour equipped!";
             }
             else throw new InvalidItemException("Hero.PickUpItem: Item is neither type Weapon or Armour");
         }
@@ -175,7 +179,7 @@ namespace Diablo.HeroClasses
             {
                 return Math.Round((Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.Dps * (1 + TotalPrimaryAttributes.Strength / 100), 2);
             }
-            else return Math.Round(1 + TotalPrimaryAttributes.Strength / 100, 2);
+            else return Math.Round(1 + Convert.ToDouble(TotalPrimaryAttributes.Strength) / 100, 2);
         }
     }
 }

@@ -7,60 +7,78 @@ using Assert = Xunit.Assert;
 
 namespace DiabloTests
 {
-    public class DiabloItemTests
+    public class DiabloItemTests : TestsBase
     {
-        //these are used on several tests
-        private Weapon weaponTest;
-        [TestInitialize]
-        public void TestInitialize() // initialize the classes before test methods use them
+
+        public DiabloItemTests()
         {
-            Weapon testAxe = new Weapon()
+
+        }
+        [Fact]
+        public void Weapon_CreateNewWeapon_NotNull()
+        {
+            // Arrange
+            Weapon weapon = new Weapon()
             {
-                ItemName = "Common axe",
-                ItemLevel = 1,
-                ItemSlot = ItemSlot.SLOT_WEAPON,
-                WeaponType = WeaponType.WEAPON_AXE,
+                WeaponAttributes = new WeaponAttributes(),
+                WeaponType = WeaponType.WEAPON_DAGGER
+            };
+            //Act
+
+            // Assert
+            Assert.NotNull(weapon);
+        }
+        [Fact]
+        public void Dps_GetWeaponDps_ShouldBeExpectedValue()
+        {
+            // Arrange
+            double actual = testWeapon.WeaponAttributes.Dps;
+            double expected = 9.6;
+            //Act
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+        [Fact]
+        public void Damage_SetDamagOnInit_ShouldHaveWeaponDamage()
+        {
+            // Arrange
+            Weapon weapon = new Weapon() 
+            { 
+                WeaponAttributes = new WeaponAttributes() {Damage = 7, AttackSpeed = 1.1 }
+            };
+            double actual = weapon.WeaponAttributes.Damage;
+            double expected = 7;
+            // Act
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+        [Fact]
+        public void AttackSpeed_SetDAttackSpeedOnInit_ShouldHaveWeaponAttackSpeed()
+        {
+            // Arrange
+            Weapon weapon = new Weapon()
+            {
                 WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
             };
-            Weapon testBow = new Weapon()
-            {
-                ItemName = "Common bow",
-                ItemLevel = 1,
-                ItemSlot = ItemSlot.SLOT_WEAPON,
-                WeaponType = WeaponType.WEAPON_BOW,
-                WeaponAttributes = new WeaponAttributes() { Damage = 12, AttackSpeed = 0.8 }
-            };
-            Armour testPlateBody = new Armour()
-            {
-                ItemName = "Common plate body armor",
-                ItemLevel = 1,
-                ItemSlot = ItemSlot.SLOT_BODY,
-                ArmourType = ArmourType.ARMOUR_PLATE,
-                Attributes = new PrimaryAttributes() { Strength = 1 }
-            };
-
-
-        }
-
-        [Fact]
-        public void Create_New_Weapon()
-        {
-            // Arrange
-            Weapon weapon = new Weapon();
-            //Act
-
+            // Act
+            double actual = weapon.WeaponAttributes.AttackSpeed;
+            double expected = 1.1;
             // Assert
-            Assert.NotNull(weapon);
+            Assert.Equal(expected, actual);
         }
         [Fact]
-        public void Get_Damage_From_Weapon()
+        public void Armour_CreateNewArmour_NotNull()
         {
             // Arrange
-            Weapon weapon = new Weapon();
-            //Act
-            var actual = weapon.WeaponAttributes.Dps;
+            Armour armour = new Armour()
+            {
+                Attributes = new PrimaryAttributes() { Strength = 1, Dexterity = 3, Intelligence = 5 }
+            };
+            // Act
+            int[] actual = armour.Attributes.GetAllAttributes();
+            int[] expected = new int[] { 1,3,5 };
             // Assert
-            Assert.NotNull(weapon);
+            Assert.Equal(expected, actual);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Diablo.HeroClasses
             TotalPrimaryAttributes += new PrimaryAttributes(3, 2, 1);
             base.LevelUp();
         }
-        public override void PickUpItem(IEquipable item)
+        public override string PickUpItem(IEquipable item)
         {
             Type type = item.GetType();
             if (type.Name == typeof(Weapon).Name)
@@ -41,12 +41,17 @@ namespace Diablo.HeroClasses
                 if (CharacterWeaponTypes.Contains((item as Weapon)!.WeaponType) && (item as Weapon)!.ItemLevel <= Level)
                 {
                     base.PickUpItem(item);
+                    return "New weapon equipped!";
                 }
                 else  throw new InvalidWeaponException();
             }
             else if (type.Name == typeof(Armour).Name)
             {
-                if (CharacterArmourTypes.Contains((item as Armour)!.ArmourType) && (item as Armour)!.ItemLevel <= Level) base.PickUpItem(item);
+                if (CharacterArmourTypes.Contains((item as Armour)!.ArmourType) && (item as Armour)!.ItemLevel <= Level) 
+                { 
+                    base.PickUpItem(item);
+                    return "New armour equipped!";
+                }
                 else throw new InvalidArmourException();
             }
             else throw new InvalidItemException();

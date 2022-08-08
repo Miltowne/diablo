@@ -26,6 +26,8 @@ namespace DiabloTests
         protected Armour headInClothTest;
         protected Weapon testWeaponTwo;
         protected Armour testArmourBodyTwo;
+        protected Armour testArmourHead;
+        protected Weapon oneDamageWeapon;
 
         public TestsBase(WeaponType weaponType, ArmourType armourType)
         {
@@ -44,7 +46,7 @@ namespace DiabloTests
                 ItemLevel = 1,
                 ItemSlot = ItemSlot.SLOT_WEAPON,
                 WeaponType = weaponType,
-                WeaponAttributes = new WeaponAttributes() { Damage = 11, AttackSpeed = 0.7 }
+                WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
             };
             testArmourBody = new Armour()
             {
@@ -118,6 +120,42 @@ namespace DiabloTests
                 ArmourType = armourType,
                 Attributes = new PrimaryAttributes() { Strength = 1 }
             };
+        }
+        public TestsBase()
+        {
+            testWeapon = new Weapon()
+            {
+                ItemName = "Common bow",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_WEAPON,
+                WeaponType = WeaponType.WEAPON_AXE,
+                WeaponAttributes = new WeaponAttributes() { Damage = 12, AttackSpeed = 0.8 }
+            };
+            testWeaponTwo = new Weapon()
+            {
+                ItemName = "Common flail",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_WEAPON,
+                WeaponType = WeaponType.WEAPON_DAGGER,
+                WeaponAttributes = new WeaponAttributes() { Damage = 11, AttackSpeed = 0.7 }
+            };
+            testArmourBody = new Armour()
+            {
+                ItemName = "Common plate body armor with style",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_BODY,
+                ArmourType = ArmourType.ARMOUR_CLOTH,
+                Attributes = new PrimaryAttributes() { Strength = 1 }
+            };
+            testArmourHead = new Armour()
+            {
+                ItemName = "Common plate head armor",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_HEAD,
+                ArmourType = ArmourType.ARMOUR_PLATE,
+                Attributes = new PrimaryAttributes() { Strength = 1 }
+            };
+           
         }
         public void Dispose()
         {
