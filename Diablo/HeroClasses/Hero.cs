@@ -20,6 +20,7 @@ namespace Diablo.HeroClasses
         public List<WeaponType> CharacterWeaponTypes { get; protected set; }
         public  List<ArmourType> CharacterArmourTypes { get; protected set; }
 
+        public double Dps => CharacterDamage();
 
         public string Stats => CharacterStatDisplay().ToString(); 
 
@@ -173,13 +174,18 @@ namespace Diablo.HeroClasses
             }
             else throw new InvalidItemException("Hero.PickUpItem: Item is neither type Weapon or Armour");
         }
-        public virtual double CharacterDamage()
+        protected virtual double CharacterDamage()
         {
             if (Inventory.ContainsKey(ItemSlot.SLOT_WEAPON))
             {
-                return Math.Round((Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.Dps * (1 + TotalPrimaryAttributes.Strength / 100), 2);
+                return Math.Round((Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.Dps * (1 + TotalPrimaryAttributes.GetAllAttributes()[GetPrimaryAttribute()] / 100), 2);
             }
-            else return Math.Round(1 + Convert.ToDouble(TotalPrimaryAttributes.Strength) / 100, 2);
+            else return 1;
+        }
+        private int GetPrimaryAttribute()
+        {
+            int max = BasePrimaryAttributes.GetAllAttributes().Max();
+            return BasePrimaryAttributes.GetAllAttributes().ToList().IndexOf(max);
         }
     }
 }

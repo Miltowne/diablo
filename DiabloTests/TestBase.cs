@@ -14,6 +14,9 @@ namespace DiabloTests
     public abstract class TestsBase : IDisposable
     {
         protected Warrior warriorTest;
+        protected Mage mageTest;
+        protected Rogue rogueTest;
+        protected Ranger rangerTest;
         protected Weapon levelFiveAxe;
         protected Weapon testWeapon;
         protected Armour testArmourBody;
@@ -32,6 +35,9 @@ namespace DiabloTests
         public TestsBase(WeaponType weaponType, ArmourType armourType)
         {
             warriorTest = new Warrior();
+            mageTest = new Mage();
+            rogueTest = new Rogue();
+            rangerTest = new Ranger();
             testWeapon = new Weapon()
             {
                 ItemName = "Common bow",

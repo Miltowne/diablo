@@ -73,7 +73,7 @@ Armour testArmourBody = new Armour()
 //warrior.PickUpItem(testPlate1Body);
 //warrior.PickUpItem(testPlate2Body);
 warrior.PickUpItem(testArmourBody);
-Console.WriteLine(warrior.CharacterDamage());
+Console.WriteLine(warrior.Dps);
 //Console.WriteLine(warrior.GetCharacterInfo().ToString());
 
 //warrior.PickUpItem(testPlate3Body);
