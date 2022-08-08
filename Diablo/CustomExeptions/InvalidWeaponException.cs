@@ -5,6 +5,9 @@ namespace Diablo.Helpers
     [Serializable]
     public class InvalidWeaponException : Exception
     {
+        /// <summary>
+        /// Exceptions specific for Weapon class items
+        /// </summary>
         public InvalidWeaponException()
         {
         }

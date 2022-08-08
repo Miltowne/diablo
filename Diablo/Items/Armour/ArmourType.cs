@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Diablo.Items.Armour
 {
+    /// <summary>
+    /// the avalable armour types for the characters
+    /// </summary>
     public enum ArmourType
     {
         ARMOUR_CLOTH,

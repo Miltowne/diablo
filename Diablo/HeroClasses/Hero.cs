@@ -9,23 +9,34 @@ namespace Diablo.HeroClasses
 {
     public abstract class Hero
     {
-
         public string Name { get; set; }
 
         public int Level { get; private set; } = 1;
 
-        public PrimaryAttributes BasePrimaryAttributes { get; protected set; } // ökar när du levlar upp
-        public PrimaryAttributes TotalPrimaryAttributes { get; protected set; } // ökar när du har Armour / härstammar BasePrima...
+        /// <summary>
+        /// Base Attributes, raises per level gained
+        /// </summary>
+        public PrimaryAttributes BasePrimaryAttributes { get; protected set; } 
+
+        /// <summary>
+        /// Total Attributes, raises per level, and from items with stats
+        /// </summary>
+        public PrimaryAttributes TotalPrimaryAttributes { get; protected set; } 
 
         public List<WeaponType> CharacterWeaponTypes { get; protected set; }
         public  List<ArmourType> CharacterArmourTypes { get; protected set; }
 
+        public double Dps => CharacterDamage();
 
         public string Stats => CharacterStatDisplay().ToString(); 
 
         public Hero()
         {
         }
+        /// <summary>
+        /// If the user wants to name their character, sets the name to property Name
+        /// </summary>
+        /// <param name="_name"></param>
         public Hero(string _name)
         {
             if (_name is not null)
@@ -33,12 +44,18 @@ namespace Diablo.HeroClasses
                 Name = _name;
             }
         }
+
         /// <summary>
         /// IDictionary is more easy-to-use when it's supposed to update, read and add, than 
         /// the normal Dictionary
         /// </summary>
         private Dictionary<ItemSlot, Item> Inventory = new Dictionary<ItemSlot, Item>();
 
+        /// <summary>
+        /// For the Inventory of the character, adds, update and returns items
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns>The value of given key</returns>
         public Item this[ItemSlot key]
         {
             // returns value if exists
@@ -48,7 +65,7 @@ namespace Diablo.HeroClasses
             set { Inventory[key] = value; }
         }
         /// <summary>
-        /// Creates a StringBuilder with all the essential stats and inventory items
+        /// Builds and returns a StringBuilder with all the essential stats and if inventory items exist
         /// </summary>
         /// <returns>StringBuilder</returns>
         private StringBuilder CharacterStatDisplay()
@@ -134,12 +151,17 @@ namespace Diablo.HeroClasses
             }
             return stringBuilder;
         }
-
+        /// <summary>
+        /// Level gets + 1 each time its called, virtual for subclass to add unique attributes via the level up
+        /// </summary>
         public virtual void LevelUp()
         {
             this.Level++;
         }
-
+        /// <summary>
+        /// Updates attributes with an armour's attribute, remove the old added attributes
+        /// </summary>
+        /// <param name="item"></param>
         private void UpdateAttributes(Item item)
         {
             if (item.GetType() != typeof(Armour)) {
@@ -153,29 +175,53 @@ namespace Diablo.HeroClasses
                 TotalPrimaryAttributes -= armour.Attributes;
             }
 
-            TotalPrimaryAttributes += (item as Armour)!.Attributes;
+                TotalPrimaryAttributes += armour.Attributes;
+
+
         }
-        public virtual void PickUpItem(IEquipable item)
+        /// <summary>
+        /// Pick up any item that is "equipable" and adds it as the correct item to inventory
+        /// throws InvalidItemException if given an item not as Weapon or Armour
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>a string with information to the user that is has equipped the item</returns>
+        /// <exception cref="InvalidItemException"></exception>
+        public virtual string PickUpItem(IEquipable item)
         {
             Type type = item.GetType();
             if (type == typeof(Weapon)) 
             {
                 Inventory[(item as Weapon)!.ItemSlot] = (item as Weapon)!;
-            } 
+                return "New weapon equipped!";
+            }
             else if (type == typeof(Armour))
             { 
-                Inventory[(item as Item)!.ItemSlot] = (item as Armour)!;
                 UpdateAttributes((item as Item)!);
+                Inventory[(item as Item)!.ItemSlot] = (item as Armour)!;
+                return "New armour equipped!";
             }
             else throw new InvalidItemException("Hero.PickUpItem: Item is neither type Weapon or Armour");
         }
-        public virtual double CharacterDamage()
+        /// <summary>
+        /// Gets called through property "Dps" as a Get. It's the characters damage it can deal
+        /// </summary>
+        /// <returns>Weapon Damage * Hero Base stats || no weapon in inventory, returns 1 as damage</returns>
+        protected virtual double CharacterDamage()
         {
             if (Inventory.ContainsKey(ItemSlot.SLOT_WEAPON))
             {
-                return Math.Round((Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.Dps * (1 + TotalPrimaryAttributes.Strength / 100), 2);
+                return Math.Round((Inventory[ItemSlot.SLOT_WEAPON] as Weapon)!.WeaponAttributes.Dps * (1 + TotalPrimaryAttributes.GetAllAttributes()[GetPrimaryAttribute()] / 100), 2);
             }
-            else return Math.Round(1 + TotalPrimaryAttributes.Strength / 100, 2);
+            else return 1;
+        }
+        /// <summary>
+        /// A function to get the heroe's primary attribute through the highest base stat 
+        /// </summary>
+        /// <returns>the highest stat in Base Attributes</returns>
+        private int GetPrimaryAttribute()
+        {
+            int max = BasePrimaryAttributes.GetAllAttributes().Max();
+            return BasePrimaryAttributes.GetAllAttributes().ToList().IndexOf(max);
         }
     }
 }

@@ -5,6 +5,9 @@ namespace Diablo.Helpers
     [Serializable]
     internal class InvalidItemException : Exception
     {
+        /// <summary>
+        /// Item exception for methods that use Item 
+        /// </summary>
         public InvalidItemException()
         {
         }

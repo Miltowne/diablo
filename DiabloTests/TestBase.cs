@@ -11,9 +11,16 @@ using System.Threading.Tasks;
 
 namespace DiabloTests
 {
+    /// <summary>
+    /// initiaizer for the test items
+    /// gets called on every test
+    /// </summary>
     public abstract class TestsBase : IDisposable
     {
         protected Warrior warriorTest;
+        protected Mage mageTest;
+        protected Rogue rogueTest;
+        protected Ranger rangerTest;
         protected Weapon levelFiveAxe;
         protected Weapon testWeapon;
         protected Armour testArmourBody;
@@ -26,13 +33,21 @@ namespace DiabloTests
         protected Armour headInClothTest;
         protected Weapon testWeaponTwo;
         protected Armour testArmourBodyTwo;
+        protected Armour testArmourHead;
+        protected Weapon oneDamageWeapon;
+        protected Armour highDexHEADInPlate;
+        protected Armour headInPlateTest;
+        protected Armour highIntelligenceHEADInPlate;
 
         public TestsBase(WeaponType weaponType, ArmourType armourType)
         {
             warriorTest = new Warrior();
+            mageTest = new Mage();
+            rogueTest = new Rogue();
+            rangerTest = new Ranger();
             testWeapon = new Weapon()
             {
-                ItemName = "Common bow",
+                ItemName = "Common weapon",
                 ItemLevel = 1,
                 ItemSlot = ItemSlot.SLOT_WEAPON,
                 WeaponType = weaponType,
@@ -44,7 +59,7 @@ namespace DiabloTests
                 ItemLevel = 1,
                 ItemSlot = ItemSlot.SLOT_WEAPON,
                 WeaponType = weaponType,
-                WeaponAttributes = new WeaponAttributes() { Damage = 11, AttackSpeed = 0.7 }
+                WeaponAttributes = new WeaponAttributes() { Damage = 7, AttackSpeed = 1.1 }
             };
             testArmourBody = new Armour()
             {
@@ -70,12 +85,36 @@ namespace DiabloTests
                 ArmourType = ArmourType.ARMOUR_PLATE,
                 Attributes = new PrimaryAttributes() { Strength = 40 }
             };
+            highDexHEADInPlate = new Armour()
+            {
+                ItemName = "Rare plate body armor of strength",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_HEAD,
+                ArmourType = armourType,
+                Attributes = new PrimaryAttributes() { Dexterity = 40 }
+            };
+            highIntelligenceHEADInPlate = new Armour()
+            {
+                ItemName = "Rare plate body armor of strength",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_HEAD,
+                ArmourType = armourType,
+                Attributes = new PrimaryAttributes() { Intelligence = 40 }
+            };
             headInClothTest = new Armour()
             {
                 ItemName = "Rare plate body armor of strength",
                 ItemLevel = 1,
                 ItemSlot = ItemSlot.SLOT_HEAD,
                 ArmourType = ArmourType.ARMOUR_CLOTH,
+                Attributes = new PrimaryAttributes() { Strength = 400 }
+            };
+            headInPlateTest = new Armour()
+            {
+                ItemName = "Rare plate body armor of strength",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_HEAD,
+                ArmourType = ArmourType.ARMOUR_PLATE,
                 Attributes = new PrimaryAttributes() { Strength = 400 }
             };
             levelOneAxe = new Weapon()
@@ -118,6 +157,45 @@ namespace DiabloTests
                 ArmourType = armourType,
                 Attributes = new PrimaryAttributes() { Strength = 1 }
             };
+        }
+        /// <summary>
+        /// initializer for items
+        /// </summary>
+        public TestsBase()
+        {
+            testWeapon = new Weapon()
+            {
+                ItemName = "Common bow",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_WEAPON,
+                WeaponType = WeaponType.WEAPON_AXE,
+                WeaponAttributes = new WeaponAttributes() { Damage = 12, AttackSpeed = 0.8 }
+            };
+            testWeaponTwo = new Weapon()
+            {
+                ItemName = "Common flail",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_WEAPON,
+                WeaponType = WeaponType.WEAPON_DAGGER,
+                WeaponAttributes = new WeaponAttributes() { Damage = 11, AttackSpeed = 0.7 }
+            };
+            testArmourBody = new Armour()
+            {
+                ItemName = "Common plate body armor with style",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_BODY,
+                ArmourType = ArmourType.ARMOUR_CLOTH,
+                Attributes = new PrimaryAttributes() { Strength = 1 }
+            };
+            testArmourHead = new Armour()
+            {
+                ItemName = "Common plate head armor",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_HEAD,
+                ArmourType = ArmourType.ARMOUR_PLATE,
+                Attributes = new PrimaryAttributes() { Strength = 1 }
+            };
+           
         }
         public void Dispose()
         {

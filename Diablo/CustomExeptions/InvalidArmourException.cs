@@ -5,6 +5,9 @@ namespace Diablo.Helpers
     [Serializable]
     public class InvalidArmourException : Exception
     {
+        /// <summary>
+        /// Armour Exception for methods that can throw armour exception
+        /// </summary>
         public InvalidArmourException()
         {
         }
