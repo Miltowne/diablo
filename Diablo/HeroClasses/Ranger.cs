@@ -13,6 +13,9 @@ namespace Diablo.HeroClasses
 {
     public class Ranger : Hero
     {
+        /// <summary>
+        /// Initialize class instances with base stats and Weapon / Armour type that the character can wield
+        /// </summary>
         public Ranger()
         {
             BasePrimaryAttributes = new PrimaryAttributes(1,7,1);
@@ -20,6 +23,11 @@ namespace Diablo.HeroClasses
             CharacterWeaponTypes = new List<WeaponType>() { WeaponType.WEAPON_BOW };
             CharacterArmourTypes = new List<ArmourType>() { ArmourType.ARMOUR_LEATHER, ArmourType.ARMOUR_MAIL };
         }
+        /// <summary>
+        /// Initialize class instances with base stats  and Weapon / Armour type that the character can wield
+        /// Able to add Name to character
+        /// </summary>
+        /// <param name="_name"></param>
         public Ranger(string _name) : base(_name)
         {
             BasePrimaryAttributes = new PrimaryAttributes(1,7,1);
@@ -27,12 +35,24 @@ namespace Diablo.HeroClasses
             CharacterWeaponTypes = new List<WeaponType>() { WeaponType.WEAPON_DAGGER, WeaponType.WEAPON_SWORD };
             CharacterArmourTypes = new List<ArmourType>() { ArmourType.ARMOUR_LEATHER, ArmourType.ARMOUR_MAIL };
         }
+        /// <summary>
+        /// overrides Hero Class "LevelUp" but adds the new attributes to Base and Total Attributes
+        /// </summary>
         public override void LevelUp()
         {
             BasePrimaryAttributes += new PrimaryAttributes(1,5,1);
             TotalPrimaryAttributes += new PrimaryAttributes(1, 5, 1);
             base.LevelUp();
         }
+        /// <summary>
+        /// overrides the Hero class "PickUpItem", can only pick up items 
+        /// that are the right WeapopnTypes that the character can wield, and isn't higher Level than character
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>string with the information that the item is equipped</returns>
+        /// <exception cref="InvalidWeaponException"></exception>
+        /// <exception cref="InvalidArmourException"></exception>
+        /// <exception cref="InvalidItemException"></exception>
         public override string PickUpItem(IEquipable item)
         {
             Type type = item.GetType();

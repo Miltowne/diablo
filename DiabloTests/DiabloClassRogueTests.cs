@@ -14,13 +14,11 @@ namespace DiabloTests
     
     public class DiabloTClassRogueTests : TestsBase
     {
-        //these are used on several tests
         /// <summary>
         /// Instead of [TestInitialize], creates instances of class rogue and a few Class.Weapon for re-use testing
         /// </summary>
         public DiabloTClassRogueTests() : base(WeaponType.WEAPON_DAGGER, ArmourType.ARMOUR_LEATHER)
         {
-            // Do "global" initialization here; Called before every test method.
         }
 
         /// <summary>
@@ -64,18 +62,18 @@ namespace DiabloTests
             // Arrange
             // Act
             int[] actual = rogueTest.BasePrimaryAttributes.GetAllAttributes();
-            int[] expected = new int[] { 5, 2, 1 };
+            int[] expected = new int[] { 2,6,1 };
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected,actual);
         }
         [Fact]
         public void PickUpItem_PickUpItem_ShouldContainItemName()
         {
             // Arrange
-            rogueTest.PickUpItem(levelOneAxe);
+            rogueTest.PickUpItem(testWeapon);
             // Act
             // Assert
-            Assert.Contains(levelOneAxe.ItemName,rogueTest.Stats);
+            Assert.Contains(testWeapon.ItemName,rogueTest.Stats);
         }
         [Fact]
         public void PickUpItem_PickToHighLevelWeapon_ShouldThrowInvalidWeaponException()
@@ -91,7 +89,7 @@ namespace DiabloTests
         {
             // Arrange
             // Act
-            Action act = () => rogueTest.PickUpItem(daggerTest);
+            Action act = () => rogueTest.PickUpItem(levelOneAxe);
             // Assert
             Assert.Throws<InvalidWeaponException>(act);
         }
@@ -117,7 +115,7 @@ namespace DiabloTests
         public void CharacterDamage_GetWeapon_ReturnNewDamageWithWeapon()
         {
             // Arrange
-            rogueTest.PickUpItem(levelOneAxe);
+            rogueTest.PickUpItem(daggerTest);
             double expected = 7.7;
             // Act
             double actual = rogueTest.Dps;
@@ -128,7 +126,7 @@ namespace DiabloTests
         public void CharacterDamage_GetArmour_ReturnNewDamageWithArmour()
         {
             // Arrange
-            rogueTest.PickUpItem(highStrengthHEADInPlate);
+            rogueTest.PickUpItem(highDexHEADInPlate);
             double expected = 1 * (1 + (5 / 100));
             // Act
             double actual = rogueTest.Dps;
@@ -175,9 +173,9 @@ namespace DiabloTests
             rogueTest.LevelUp();
             // Act
             int[] actual = rogueTest.BasePrimaryAttributes.GetAllAttributes();
-            int[] expected = new int[] { 5 + 3, 2 + 2, 1 + 1 };
+            int[] expected = new int[] { 3,10,2 };
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
         [Fact]
         public void HeroTotalAttribute_GiveArmour_TotalAttributesChanged()
@@ -245,7 +243,23 @@ namespace DiabloTests
 
         }
 
+        [Fact]
+        public void CharacterWeaponTypes_CreatedOnInit_ReturnWeaponTypes()
+        {
+            // Arrange
+            // Act
+            // Assert
+            Assert.NotEmpty(rogueTest.CharacterWeaponTypes);
+        }
 
+        [Fact]
+        public void CharacterArmourTypes_CreatedOnInit_ReturnArmourTypes()
+        {
+            // Arrange
+            // Act
+            // Assert
+            Assert.NotEmpty(rogueTest.CharacterArmourTypes);
+        }
 
 
 

@@ -14,13 +14,11 @@ namespace DiabloTests
     
     public class DiabloTClassRangerTests : TestsBase
     {
-        //these are used on several tests
         /// <summary>
         /// Instead of [TestInitialize], creates instances of class ranger and a few Class.Weapon for re-use testing
         /// </summary>
         public DiabloTClassRangerTests() : base(WeaponType.WEAPON_BOW, ArmourType.ARMOUR_LEATHER)
         {
-            // Do "global" initialization here; Called before every test method.
         }
 
         /// <summary>
@@ -64,18 +62,18 @@ namespace DiabloTests
             // Arrange
             // Act
             int[] actual = rangerTest.BasePrimaryAttributes.GetAllAttributes();
-            int[] expected = new int[] { 5, 2, 1 };
+            int[] expected = new int[] { 1,7,1 };
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
         [Fact]
         public void PickUpItem_PickUpItem_ShouldContainItemName()
         {
             // Arrange
-            rangerTest.PickUpItem(levelOneAxe);
+            rangerTest.PickUpItem(testWeapon);
             // Act
             // Assert
-            Assert.Contains(levelOneAxe.ItemName,rangerTest.Stats);
+            Assert.Contains(testWeapon.ItemName, rangerTest.Stats);
         }
         [Fact]
         public void PickUpItem_PickToHighLevelWeapon_ShouldThrowInvalidWeaponException()
@@ -117,8 +115,8 @@ namespace DiabloTests
         public void CharacterDamage_GetWeapon_ReturnNewDamageWithWeapon()
         {
             // Arrange
-            rangerTest.PickUpItem(levelOneAxe);
-            double expected = 7.7;
+            rangerTest.PickUpItem(testWeapon);
+            double expected = 9.6;
             // Act
             double actual = rangerTest.Dps;
             // Assert
@@ -128,7 +126,7 @@ namespace DiabloTests
         public void CharacterDamage_GetArmour_ReturnNewDamageWithArmour()
         {
             // Arrange
-            rangerTest.PickUpItem(highStrengthHEADInPlate);
+            rangerTest.PickUpItem(highDexHEADInPlate);
             double expected = 1 * (1 + (5 / 100));
             // Act
             double actual = rangerTest.Dps;
@@ -175,9 +173,9 @@ namespace DiabloTests
             rangerTest.LevelUp();
             // Act
             int[] actual = rangerTest.BasePrimaryAttributes.GetAllAttributes();
-            int[] expected = new int[] { 5 + 3, 2 + 2, 1 + 1 };
+            int[] expected = new int[] { 2,12,2 };
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected,actual);
         }
         [Fact]
         public void HeroTotalAttribute_GiveArmour_TotalAttributesChanged()
@@ -243,6 +241,23 @@ namespace DiabloTests
             // Assert
             Assert.Equal(Math.Round(expected, 2), actual);
 
+        }
+        [Fact]
+        public void CharacterWeaponTypes_CreatedOnInit_ReturnWeaponTypes()
+        {
+            // Arrange
+            // Act
+            // Assert
+            Assert.NotEmpty(rangerTest.CharacterWeaponTypes);
+        }
+
+        [Fact]
+        public void CharacterArmourTypes_CreatedOnInit_ReturnArmourTypes()
+        {
+            // Arrange
+            // Act
+            // Assert
+            Assert.NotEmpty(rangerTest.CharacterArmourTypes);
         }
 
 

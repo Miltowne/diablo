@@ -8,6 +8,9 @@ namespace Diablo.Items
 {
     public abstract class Item
     {
+        /// <summary>
+        /// abstract class with the base properties for the armour and weapons
+        /// </summary>
         public string? ItemName { get; set; }
 
         public int ItemLevel { get; set; }

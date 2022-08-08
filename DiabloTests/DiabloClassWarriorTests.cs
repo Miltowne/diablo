@@ -10,19 +10,14 @@ using Assert = Xunit.Assert;
 
 namespace DiabloTests
 {
-
-    
     public class DiabloTClassWarriorTests : TestsBase
     {
-        //these are used on several tests
         /// <summary>
         /// Instead of [TestInitialize], creates instances of class warrior and a few Class.Weapon for re-use testing
         /// </summary>
         public DiabloTClassWarriorTests() : base(WeaponType.WEAPON_AXE, ArmourType.ARMOUR_PLATE)
         {
-            // Do "global" initialization here; Called before every test method.
         }
-
         /// <summary>
         /// Tests should speak for themselves, Fact and Theory tests
         /// </summary>
@@ -245,7 +240,23 @@ namespace DiabloTests
 
         }
 
+        [Fact]
+        public void CharacterWeaponTypes_CreatedOnInit_ReturnWeaponTypes()
+        {
+            // Arrange
+            // Act
+            // Assert
+            Assert.NotEmpty(warriorTest.CharacterWeaponTypes);
+        }
 
+        [Fact]
+        public void CharacterArmourTypes_CreatedOnInit_ReturnArmourTypes()
+        {
+            // Arrange
+            // Act
+            // Assert
+            Assert.NotEmpty(warriorTest.CharacterArmourTypes);
+        }
 
 
 

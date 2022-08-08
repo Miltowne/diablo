@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Diablo.Items.Weapon
 {
+    /// <summary>
+    /// the available weapon types the character's can use
+    /// </summary>
     public enum WeaponType
     {
         WEAPON_AXE,

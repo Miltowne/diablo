@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace DiabloTests
 {
+    /// <summary>
+    /// initiaizer for the test items
+    /// gets called on every test
+    /// </summary>
     public abstract class TestsBase : IDisposable
     {
         protected Warrior warriorTest;
@@ -31,6 +35,9 @@ namespace DiabloTests
         protected Armour testArmourBodyTwo;
         protected Armour testArmourHead;
         protected Weapon oneDamageWeapon;
+        protected Armour highDexHEADInPlate;
+        protected Armour headInPlateTest;
+        protected Armour highIntelligenceHEADInPlate;
 
         public TestsBase(WeaponType weaponType, ArmourType armourType)
         {
@@ -40,7 +47,7 @@ namespace DiabloTests
             rangerTest = new Ranger();
             testWeapon = new Weapon()
             {
-                ItemName = "Common bow",
+                ItemName = "Common weapon",
                 ItemLevel = 1,
                 ItemSlot = ItemSlot.SLOT_WEAPON,
                 WeaponType = weaponType,
@@ -78,12 +85,36 @@ namespace DiabloTests
                 ArmourType = ArmourType.ARMOUR_PLATE,
                 Attributes = new PrimaryAttributes() { Strength = 40 }
             };
+            highDexHEADInPlate = new Armour()
+            {
+                ItemName = "Rare plate body armor of strength",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_HEAD,
+                ArmourType = armourType,
+                Attributes = new PrimaryAttributes() { Dexterity = 40 }
+            };
+            highIntelligenceHEADInPlate = new Armour()
+            {
+                ItemName = "Rare plate body armor of strength",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_HEAD,
+                ArmourType = armourType,
+                Attributes = new PrimaryAttributes() { Intelligence = 40 }
+            };
             headInClothTest = new Armour()
             {
                 ItemName = "Rare plate body armor of strength",
                 ItemLevel = 1,
                 ItemSlot = ItemSlot.SLOT_HEAD,
                 ArmourType = ArmourType.ARMOUR_CLOTH,
+                Attributes = new PrimaryAttributes() { Strength = 400 }
+            };
+            headInPlateTest = new Armour()
+            {
+                ItemName = "Rare plate body armor of strength",
+                ItemLevel = 1,
+                ItemSlot = ItemSlot.SLOT_HEAD,
+                ArmourType = ArmourType.ARMOUR_PLATE,
                 Attributes = new PrimaryAttributes() { Strength = 400 }
             };
             levelOneAxe = new Weapon()
@@ -127,6 +158,9 @@ namespace DiabloTests
                 Attributes = new PrimaryAttributes() { Strength = 1 }
             };
         }
+        /// <summary>
+        /// initializer for items
+        /// </summary>
         public TestsBase()
         {
             testWeapon = new Weapon()

@@ -14,13 +14,11 @@ namespace DiabloTests
     
     public class DiabloTClassMageTests : TestsBase
     {
-        //these are used on several tests
         /// <summary>
         /// Instead of [TestInitialize], creates instances of class Mage and a few Class.Weapon for re-use testing
         /// </summary>
         public DiabloTClassMageTests() : base(WeaponType.WEAPON_STAFF, ArmourType.ARMOUR_CLOTH)
         {
-            // Do "global" initialization here; Called before every test method.
         }
 
         /// <summary>
@@ -64,18 +62,18 @@ namespace DiabloTests
             // Arrange
             // Act
             int[] actual = mageTest.BasePrimaryAttributes.GetAllAttributes();
-            int[] expected = new int[] { 5, 2, 1 };
+            int[] expected = new int[] { 1,1,8 };
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
         [Fact]
         public void PickUpItem_PickUpItem_ShouldContainItemName()
         {
             // Arrange
-            mageTest.PickUpItem(levelOneAxe);
+            mageTest.PickUpItem(testWeapon);
             // Act
             // Assert
-            Assert.Contains(levelOneAxe.ItemName, mageTest.Stats);
+            Assert.Contains(testWeapon.ItemName, mageTest.Stats);
         }
         [Fact]
         public void PickUpItem_PickToHighLevelWeapon_ShouldThrowInvalidWeaponException()
@@ -109,7 +107,7 @@ namespace DiabloTests
         {
             // Arrange
             // Act
-            Action act = () => mageTest.PickUpItem(headInClothTest);
+            Action act = () => mageTest.PickUpItem(headInPlateTest);
             // Assert
             Assert.Throws<InvalidArmourException>(act);
         }
@@ -117,8 +115,8 @@ namespace DiabloTests
         public void CharacterDamage_GetWeapon_ReturnNewDamageWithWeapon()
         {
             // Arrange
-            mageTest.PickUpItem(levelOneAxe);
-            double expected = 7.7;
+            mageTest.PickUpItem(testWeapon);
+            double expected = 9.6;
             // Act
             double actual = mageTest.Dps;
             // Assert
@@ -128,7 +126,7 @@ namespace DiabloTests
         public void CharacterDamage_GetArmour_ReturnNewDamageWithArmour()
         {
             // Arrange
-            mageTest.PickUpItem(highStrengthHEADInPlate);
+            mageTest.PickUpItem(highIntelligenceHEADInPlate);
             double expected = 1 * (1 + (5 / 100));
             // Act
             double actual = mageTest.Dps;
@@ -175,9 +173,9 @@ namespace DiabloTests
             mageTest.LevelUp();
             // Act
             int[] actual = mageTest.BasePrimaryAttributes.GetAllAttributes();
-            int[] expected = new int[] { 5 + 3, 2 + 2, 1 + 1 };
+            int[] expected = new int[] { 2,2,13 };
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
         [Fact]
         public void HeroTotalAttribute_GiveArmour_TotalAttributesChanged()
@@ -243,6 +241,26 @@ namespace DiabloTests
             // Assert
             Assert.Equal(Math.Round(expected, 2), actual);
 
+        }
+        [Fact]
+        public void CharacterWeaponTypes_CreatedOnInit_ReturnWeaponTypes()
+        {
+            // Arrange
+            Mage mage = new Mage();
+            // Act
+            // Assert
+            Assert.NotEmpty(mage.CharacterWeaponTypes);
+        }
+
+        [Fact]
+        public void CharacterArmourTypes_CreatedOnInit_ReturnArmourTypes()
+        {
+            // Arrange
+            Mage mage = new Mage();
+
+            // Act
+            // Assert
+            Assert.NotEmpty(mage.CharacterArmourTypes);
         }
 
 
